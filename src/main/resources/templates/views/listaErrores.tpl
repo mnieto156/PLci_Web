@@ -1,13 +1,6 @@
-yieldUnescaped '<!DOCTYPE html>'
-html {
-  head {
-    title("Commit del $commit.commitFecha del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2")
-    link(rel: 'stylesheet', href: '/webjars/bootstrap/css/bootstrap.min.css')
-  }
-   body {
-    div(class: 'container') {
-
-      h2("Commit del $commit.commitFecha del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2")
+layout 'layouts/main.tpl',
+	pageTitle: "Commit del $commit.commitFecha del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
+	mainBody: contents{
       table(class:'table table-dark table-striped'){
       	thead{
       		tr{
@@ -27,5 +20,4 @@ html {
       	}
       }
     }
-  }
-}
+

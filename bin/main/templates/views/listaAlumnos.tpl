@@ -1,18 +1,6 @@
-yieldUnescaped '<!DOCTYPE html>'
-html {
-  head {
-    title('Alumnos de Procesadores de Lenguaje')
-    link(rel: 'stylesheet', href: '/webjars/bootstrap/css/bootstrap.min.css')
-  }
-   body {
-    div(class: 'container') {
-      div(class: 'navbar') {
-        div(class: 'form-group') {
-        
-        }
-       
-      }
-      h2('Alumnos de Procesadores de Lenguaje')
+layout 'layouts/main.tpl',
+pageTitle: 'Alumnos de Procesadores de Lenguaje',
+mainBody: contents{
       table(class:'table table-dark table-striped'){
       	thead{
       		tr{
@@ -38,6 +26,3 @@ html {
       	}
       }
     }
-  }
-}
-        

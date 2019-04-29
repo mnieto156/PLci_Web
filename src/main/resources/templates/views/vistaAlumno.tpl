@@ -1,13 +1,6 @@
-yieldUnescaped '<!DOCTYPE html>'
-html {
-  head {
-	title("Alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2")
-	link(rel: 'stylesheet', href: '/webjars/bootstrap/css/bootstrap.min.css')
-  }
-   body {
-	div(class: 'container') {
-
-	  h2("Alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2")
+layout 'layouts/main.tpl',
+	pageTitle: "Alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
+	mainBody: contents{
 	  table(class:'table table-dark table-striped'){
 		thead{
             tr{
@@ -33,5 +26,3 @@ html {
 
 	  }
 	}
-  }
-}
