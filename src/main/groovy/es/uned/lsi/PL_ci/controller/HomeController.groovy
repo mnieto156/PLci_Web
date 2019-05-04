@@ -14,4 +14,11 @@ class HomeController {
 			[bootVersion: Banner.package.implementationVersion, 
          groovyVersion: GroovySystem.version])
 	}
+
+	@RequestMapping("/login")
+	def login() {
+		new ModelAndView(
+				"views/login"
+		)
+	}
 }

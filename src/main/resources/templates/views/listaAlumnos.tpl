@@ -7,7 +7,7 @@ mainBody: contents{
       			th('Id')
       			th('Nombre')
 				th('Correo')
-				th('Perfil')
+				//th('Perfil')
 				th('Commits')
       		}
       	}
@@ -17,7 +17,7 @@ mainBody: contents{
 	      			td("$alumno.usuarioId ")
 	      			td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
 					td("$alumno.correo")
-					td("$alumno.perfil.perfilDescripcion")
+					//td("$alumno.perfil.perfilDescripcion")
 					td{
 						a(href:"$alumno.usuarioId",'Ficha')
 				    }

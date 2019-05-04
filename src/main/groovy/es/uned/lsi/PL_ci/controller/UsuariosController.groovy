@@ -5,6 +5,7 @@ import es.uned.lsi.PL_ci.entity.Commit
 import es.uned.lsi.PL_ci.service.UsuarioService
 import es.uned.lsi.PL_ci.service.CommitService
 import org.springframework.data.domain.Sort
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 
 @RestController
 @RequestMapping('/usuarios')
+@PreAuthorize('isAuthenticated()')
 class UsuariosController {
 
     @Autowired
@@ -44,6 +46,7 @@ class UsuariosController {
     }*/
 
     @RequestMapping(value='/lista')
+
     def listaAlumnos() {
         new ModelAndView(
                 "views/listaAlumnos",[alumnos:usuarioService.findAll()])

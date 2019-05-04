@@ -26,5 +26,3 @@ layout 'layouts/main.tpl',
 
 	  }
 	}
-  }
-}

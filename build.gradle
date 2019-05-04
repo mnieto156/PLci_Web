@@ -4,7 +4,9 @@ plugins {
 	id 'groovy'
 }
 
+apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
+
 
 group = 'es.uned.lsi'
 version = '0.0.1-SNAPSHOT'
@@ -15,8 +17,10 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.codehaus.groovy:groovy'
 	compile 'org.springframework.boot:spring-boot-starter-groovy-templates'
 	// https://mvnrepository.com/artifact/org.webjars/webjars-locator
@@ -27,4 +31,5 @@ dependencies {
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
