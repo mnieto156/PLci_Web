@@ -1,5 +1,9 @@
 package es.uned.lsi.PL_ci.config
 
+import es.uned.lsi.PL_ci.entity.Role
+import es.uned.lsi.PL_ci.entity.User
+import es.uned.lsi.PL_ci.repository.RoleRepository
+import es.uned.lsi.PL_ci.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,9 +16,15 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
+
+import javax.transaction.Transactional
+
 @Configuration
 @EnableWebSecurity
 class PLciWebSecurity extends WebSecurityConfigurerAdapter {
+
+
+
     @Autowired
     private UserDetailsService userDetailsService
 
@@ -25,8 +35,12 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http
-                .formLogin()
+        http    .csrf().disable()
+        http    .authorizeRequests()
+                    .antMatchers("/ayuda","/webjars/**").permitAll()
+                    .anyRequest().authenticated()
+
+        http    .formLogin()
                     .loginPage('/login')
                     .failureUrl('/login/authfail')
                     .permitAll()
@@ -34,9 +48,7 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl('/logout').permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage('/login/denied')
-                .and()
-                .authorizeRequests()
-                    .anyRequest().fullyAuthenticated()
+
     }
 
     @Bean
@@ -47,5 +59,39 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
+    }
+
+    @Autowired
+    @Transactional
+    void initUsers(
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
+        def roleAdmin = roleRepository.findById("Admin").orElse(null)
+        if(roleAdmin==null){
+            roleAdmin = new Role(
+                    authority: 'Admin',
+                    description: 'Administrador de pagina'
+            )
+            roleRepository.save(roleAdmin)
+        }
+
+        def roleAlumno = roleRepository.findById("Alumno").orElse(null)
+        if(roleAlumno==null){
+            roleAlumno = new Role(
+                    authority: 'Alumno',
+                    description: 'Alumno de la asignatura'
+            )
+            roleRepository.save(roleAlumno)
+        }
+
+        def userAdmin = userRepository.findById('admin').orElse(null)
+        if (userAdmin == null) {
+            userAdmin = new User(
+                    username: 'admin',
+                    password: passwordEncoder.encode('1234'),
+                    authorities: [roleAdmin])
+            userRepository.save(userAdmin)
+        }
     }
 }

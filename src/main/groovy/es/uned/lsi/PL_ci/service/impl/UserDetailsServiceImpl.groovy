@@ -1,5 +1,6 @@
-package es.uned.lsi.PL_ci.service
+package es.uned.lsi.PL_ci.service.impl
 
+import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -10,7 +11,7 @@ import javax.transaction.Transactional
 
 @Service
 @Transactional
-class CustomUserDetailsService implements  UserDetailsService{
+class UserDetailsServiceImpl implements  UserDetailsService{
     @Autowired
     UserService userService
 
