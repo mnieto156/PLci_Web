@@ -14,12 +14,12 @@ import javax.persistence.JoinColumn
 
 
 @Entity
-@Table(name="usuarios")
-class Usuario {
+@Table(name = "alumnos")
+class Alumno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name='usuario_id')
-    Integer usuarioId
+    @Column(name = 'alumno_id')
+    Integer alumnoId
 
     @NotNull
     @Column(nullable = false)
@@ -41,13 +41,11 @@ class Usuario {
     @Column(nullable=false)
     Integer curso
 
-/*    @ManyToOne
-    @JoinColumn(name = "perfil_id", referencedColumnName = "perfil_id", nullable = false)
-    Perfil perfil*/
+    String repositorio
 
     @OneToOne(
             fetch = FetchType.LAZY,
-            mappedBy = 'usuario'
+            mappedBy = 'alumno'
     )
     User user
 }

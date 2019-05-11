@@ -38,8 +38,8 @@ class Commit {
 	Integer commitNumCorrectos
 	
 	@ManyToOne
-	@JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
-	Usuario usuario
+	@JoinColumn(name = "alumno_id", referencedColumnName = "alumno_id", nullable = false)
+	Alumno alumno
 	@JsonManagedReference
 	@OneToMany(mappedBy = "commit",fetch = FetchType.LAZY)
 	List<CommitError> commitErrors

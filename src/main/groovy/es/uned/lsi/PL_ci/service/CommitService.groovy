@@ -5,8 +5,8 @@ import org.springframework.data.domain.Sort
 
 interface CommitService {
 	Commit findById(int commit_id)
-	
-	List<Commit> findByUsuarioUsuarioId(int usuario_id)
 
-	List<Commit> findByUsuarioUsuarioId(int usuario_id, Sort sort)
+    List<Commit> findByAlumnoAlumnoId(int alumno_id)
+
+    List<Commit> findByAlumnoAlumnoId(int alumno_id, Sort sort)
 }

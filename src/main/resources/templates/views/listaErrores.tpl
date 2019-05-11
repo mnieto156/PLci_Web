@@ -1,4 +1,4 @@
-layout 'layouts/main.tpl',
+layout 'layouts/main.tpl',true,
 	pageTitle: "Commit del $commit.commitFecha del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
 	mainBody: contents{
       table(class:'table table-dark table-striped'){

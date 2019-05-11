@@ -29,7 +29,7 @@ class User implements  UserDetails{
 
     @OneToOne(orphanRemoval = true)
     @JsonIgnore
-    Usuario usuario
+    Alumno alumno
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -42,12 +42,12 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
 
         http    .formLogin()
                     .loginPage('/login')
-                    .failureUrl('/login/authfail')
+                .failureUrl('/login?error')
                     .permitAll()
                 .and()
                 .logout().logoutUrl('/logout').permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage('/login/denied')
+                .exceptionHandling().accessDeniedPage('/login?denied')
 
     }
 
@@ -67,19 +67,19 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
             RoleRepository roleRepository,
             UserRepository userRepository,
             PasswordEncoder passwordEncoder) {
-        def roleAdmin = roleRepository.findById("Admin").orElse(null)
-        if(roleAdmin==null){
+        def roleAdmin = roleRepository.findById("ROLE_ADMIN").orElse(null)
+        if (roleAdmin == null) {
             roleAdmin = new Role(
-                    authority: 'Admin',
+                    authority: 'ROLE_ADMIN',
                     description: 'Administrador de pagina'
             )
             roleRepository.save(roleAdmin)
         }
 
-        def roleAlumno = roleRepository.findById("Alumno").orElse(null)
-        if(roleAlumno==null){
+        def roleAlumno = roleRepository.findById("ROLE_ALUMNO").orElse(null)
+        if (roleAlumno == null) {
             roleAlumno = new Role(
-                    authority: 'Alumno',
+                    authority: 'ROLE_ALUMNO',
                     description: 'Alumno de la asignatura'
             )
             roleRepository.save(roleAlumno)
@@ -92,6 +92,16 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
                     password: passwordEncoder.encode('1234'),
                     authorities: [roleAdmin])
             userRepository.save(userAdmin)
+        }
+
+        def userAlumno = userRepository.findById('mnieto156').orElse(null)
+        if (userAlumno == null) {
+            userAlumno = new User(
+                    username: 'mnieto156',
+                    password: passwordEncoder.encode('deunan'),
+                    authorities: [roleAlumno])
+            userRepository.save(userAlumno)
+
         }
     }
 }

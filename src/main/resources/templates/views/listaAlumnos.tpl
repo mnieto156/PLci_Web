@@ -1,4 +1,4 @@
-layout 'layouts/main.tpl',
+layout 'layouts/main.tpl', true,
 pageTitle: 'Alumnos de Procesadores de Lenguaje',
 mainBody: contents{
       table(class:'table table-dark table-striped'){
@@ -14,12 +14,12 @@ mainBody: contents{
       	tbody{
       		alumnos.each { alumno ->
 	      		tr {
-	      			td("$alumno.usuarioId ")
+	      			td("$alumno.alumnoId ")
 	      			td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
 					td("$alumno.correo")
 					//td("$alumno.perfil.perfilDescripcion")
 					td{
-						a(href:"$alumno.usuarioId",'Ficha')
+						a(href:"$alumno.alumnoId",'Ficha')
 				    }
 				}
 	      	}

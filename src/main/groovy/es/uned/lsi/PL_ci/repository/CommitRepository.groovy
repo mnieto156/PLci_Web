@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CommitRepository extends JpaRepository<Commit, Integer> {
 	Commit findByCommitId(Integer commit_id)
-	
-	List<Commit> findByUsuarioUsuarioId(Integer usuario_id)
 
-	List<Commit> findByUsuarioUsuarioId(int usuario_id, Sort sort)
+    List<Commit> findByAlumnoAlumnoId(Integer alumno_id)
+
+    List<Commit> findByAlumnoAlumnoId(int alumno_id, Sort sort)
 }

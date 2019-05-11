@@ -16,7 +16,7 @@ mainBody: contents{
                             button(class:"btn btn-lg btn-secondary btn-block", type:'submit', title: 'Acceder a la página'){
                                             yield "Acceder"
                                         }
-                            input(type:'hidden',name='${_csrf.parameterName}',value='${_csrf.token}')
+                            input(type:'hidden',name:'${_csrf.parameterName}',value:'${_csrf.token}')
                         }
 
                 }

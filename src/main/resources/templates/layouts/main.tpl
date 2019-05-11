@@ -15,16 +15,32 @@ html {
 		button( class:"navbar-toggler", type:"button", "data-toggle":"collapse", "data-target":"#collapsibleNavbar"){
 			span (class:"navbar-toggler-icon")
 		}
-		div(class:"collapse navbar-collapse", id:"collapsibleNavbar")
-		ul(class: 'navbar-nav') {
-			li(class: 'nav-item'){
-				a(class:'nav-link',href:'/usuarios/lista','Alumnos')
-			}
-			li(class: 'nav-item') {
-				a(class:'nav-link',href:'#','Ayuda')
-			}
-			
-		}
+		div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
+            ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
+                li(class: 'nav-item'){
+                    a(class:'nav-link',href:'/alumnos/lista','Alumnos')
+                }
+                li(class: 'nav-item') {
+                    a(class:'nav-link',href:'#','Ayuda')
+                }
+
+            }
+            ul(class:"navbar-nav my-2 my-lg-0"){
+                li(class:"dropdown"){
+                    a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown"){
+                        def usuId = userName ?: 'Usuario'
+                        yield "$usuId"
+                    }
+                    ul(class:"dropdown-menu"){
+                        a(class:"dropdown-item", href:"#", 'Ficha')
+                        a(class:"dropdown-item", href:"#", 'Notas')
+                        li(class:"dropdown-divider"){}
+                        a(class:"dropdown-item", href:"/logout", 'Salir')
+                    }
+                }
+            }
+        }
+
 	   
 	  }
 	  h2(pageTitle)

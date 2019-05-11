@@ -25,37 +25,37 @@ class UserController {
     UserService userService
 
     @GetMapping
-    @PostFilter('hasRole("Admin") or filterObject.username==principal.username')
+    @PostFilter('hasRole("ADMIN") or filterObject.username==principal.username')
     List<User> findAll(){
         userService.findAll()
     }
 
     @GetMapping('{id}')
-    @PreAuthorize('hasRole("Admin") or #id == principal.username')
+    @PreAuthorize('hasRole("ADMIN") or #id == principal.username')
     User findById(@PathVariable String id){
         userService.findById(id)
     }
 
     @PostMapping
-    @PreAuthorize('hasRole("Admin")')
+    @PreAuthorize('hasRole("ADMIN")')
     User create(@RequestBody User user){
         userService.create(user)
     }
 
     @PutMapping('{id}/password')
-    @PreAuthorize('hasRole("Admin") or #id == principal.username')
+    @PreAuthorize('hasRole("ADMIN") or #id == principal.username')
     User updatePassword(@PathVariable String id, @RequestBody(required = true) String password){
         userService.updatePassword(id,password)
     }
 
     @PutMapping('{id}/enabled')
-    @PreAuthorize('hasRole("Admin")')
+    @PreAuthorize('hasRole("ADMIN")')
     User updateEnabled(@PathVariable String id, @RequestBody(required = true) boolean enabled){
         userService.updateEnabled(id,enabled)
     }
 
     @DeleteMapping('{id}')
-    @PreAuthorize('hasRole("Admin")')
+    @PreAuthorize('hasRole("ADMIN")')
     User deleteById(@PathVariable String id){
         userService.deleteById(id)
     }
