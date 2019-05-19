@@ -35,4 +35,11 @@ class HomeController {
 
         return "views/login"
     }
+    @RequestMapping(value = "/notallowed")
+    def notAllowed(Model model, String error, @AuthenticationPrincipal User user){
+        if(error != null)
+            model.addAttribute("error", error)
+        model.addAttribute("userName",user.username)
+        return 'views/notAllowed'
+    }
 }

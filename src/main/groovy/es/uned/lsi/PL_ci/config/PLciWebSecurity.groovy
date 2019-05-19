@@ -47,7 +47,7 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl('/logout').permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage('/login?denied')
+                .exceptionHandling().accessDeniedPage('/notallowed')
 
     }
 

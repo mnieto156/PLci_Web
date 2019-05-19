@@ -26,14 +26,14 @@ html {
 
             }
             ul(class:"navbar-nav my-2 my-lg-0"){
+                def usuId = userName ?: 'Usuario'
                 li(class:"dropdown"){
                     a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown"){
-                        def usuId = userName ?: 'Usuario'
                         yield "$usuId"
                     }
                     ul(class:"dropdown-menu"){
-                        a(class:"dropdown-item", href:"#", 'Ficha')
-                        a(class:"dropdown-item", href:"#", 'Notas')
+                        a(class:"dropdown-item", href:"/alumnos/$usuId/ficha", 'Ficha')
+                        a(class:"dropdown-item", href:"/alumnos/$usuId/notas", 'Notas')
                         li(class:"dropdown-divider"){}
                         a(class:"dropdown-item", href:"/logout", 'Salir')
                     }
