@@ -4,9 +4,11 @@ import es.uned.lsi.PL_ci.entity.Alumno
 import es.uned.lsi.PL_ci.entity.User
 import es.uned.lsi.PL_ci.service.AlumnoService
 import es.uned.lsi.PL_ci.service.CommitService
+import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.data.domain.Sort
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
@@ -29,26 +31,11 @@ class AlumnosController {
     @Autowired
     private final CommitService commitService
 
-/*	 @RequestMapping(method = RequestMethod.GET)
-	 List<Alumno> findAll() {
-		 alumnoService.findAll()
-	 }*/
+    @Autowired
+    private final UserService userService
 
-/*	 @RequestMapping(value = '/{alumno_id}', method = RequestMethod.GET)
-	 Alumno findById(@PathVariable('alumno_id') int alumno_id) {
-		 alumnoService.findById(alumno_id)
-	 }*/
-
-    /*@RequestMapping(value = '/{alumno_id}/commits', method = RequestMethod.GET)
-    List<Commit> findCommitByalumnoId(@PathVariable('alumno_id') int alumno_id) {
-        commitService.findByalumnoalumnoId(alumno_id)
-    }
-    @RequestMapping(value = '/{alumno_id}/commits/{commit_id}',method=RequestMethod.GET)
-    Commit findCommitById(@PathVariable('commit_id') int commit_id,@PathVariable('alumno_id') int alumno_id) {
-        def commit = commitService.findById(commit_id)
-        assert commit.alumno.alumnoId == alumno_id
-        return commit
-    }*/
+    @Autowired
+    private final PasswordEncoder passwordEncoder
 
     @RequestMapping(value = 'lista', method = RequestMethod.GET)
     @PreAuthorize('hasRole("ADMIN")')
@@ -77,17 +64,17 @@ class AlumnosController {
     }
 
     @RequestMapping(value = "{user_id}/guardarAlumno", method = RequestMethod.POST)
-    def guardarAlumno(@AuthenticationPrincipal User loggedUser,@Valid Alumno alumno, String newPassword, BindingResult result, RedirectAttributes redirect) {
+    @PreAuthorize("#user_id == principal.username")
+    def guardarAlumno(String newPassword, String oldPassword, @PathVariable String user_id, @AuthenticationPrincipal User loggedUser, Alumno alumno, BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()){
-            new ModelAndView("error",[userName:loggedUser.username])
+            new ModelAndView("views/error", [userName: loggedUser.username, errors: result.allErrors])
         }
-
-        if(newPassword != null){
-           // userService.updatePassword(newPassword)
+        alumno = alumnoService.update(alumno, alumno.alumnoId)
+        if (newPassword != null && passwordEncoder.matches(oldPassword, alumno.user?.password)) {
+            userService.updatePassword(alumno.user.username, newPassword)
         }
-        //alumno = alumnoService.update(alumno,alumno.alumnoId)
-        redirect.addFlashAttribute("globalMessage","Alumno guardado")
-        new ModelAndView("redirect:/{user_id}/ficha","user_id",alumno.user.username)
+        redirect.addFlashAttribute("globalMessage", "Cambios guardados")
+        new ModelAndView("redirect:ficha", "user_id", user_id)
     }
 
     @RequestMapping(value = '{alumno_id}/commits')

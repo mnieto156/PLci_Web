@@ -1,4 +1,3 @@
-def hiddenUser = alumno.user
 layout 'layouts/main.tpl',true,
 	pageTitle: "Alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
 	mainBody: contents{
@@ -36,9 +35,13 @@ layout 'layouts/main.tpl',true,
                 }
 		}
 		div(class:'form-row'){
-            div(class:'form-group col-md-6') {
-                label(for:'password','Contraseña')
-                input(type:'password', class:'form-control', name:'newPassword', value:hiddenUser.password?:'changeme')
+            div(class:'form-group col-md-4') {
+                label(for:'password','Antigua Contraseña')
+                input(type:'password', class:'form-control', name:'oldPassword')
+                }
+            div(class:'form-group col-md-4') {
+                label(for:'password','Nueva Contraseña')
+                input(type:'password', class:'form-control', name:'newPassword')
                 }
             div(class:'form-group col-md-2') {
                 label(for:'enviar','Guardar cambios')
@@ -47,13 +50,5 @@ layout 'layouts/main.tpl',true,
                 }
 		}
         input(type:'hidden',name:'alumnoId',value:alumno.alumnoId)
-        input(type:'hidden',name:'correo',value:alumno.correo)
-        input(type:'hidden',name:'curso',value:alumno.curso)
-        input(type:'hidden',name:'repositorio',value:alumno.repositorio)
-        input(type:'hidden',name:'oldPass',value:hiddenUser.password)
-
-
-
         }
 	  }
-	}

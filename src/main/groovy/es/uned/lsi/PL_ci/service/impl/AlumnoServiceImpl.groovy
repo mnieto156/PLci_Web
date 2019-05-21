@@ -55,12 +55,12 @@ class AlumnoServiceImpl implements AlumnoService {
 	Alumno update(Alumno alumno, int alumno_id) {
 		Alumno persisted = findById(alumno_id)
 		persisted.with {
-			nombre = alumno.nombre
-			apellido1 = alumno.apellido1
+			nombre = alumno.nombre ?: nombre
+			apellido1 = alumno.apellido1 ?: apellido1
 			apellido2 = alumno.apellido2
-			correo = alumno.correo
-			curso = alumno.curso
-			repositorio = alumno.repositorio
+			correo = alumno.correo ?: correo
+			curso = alumno.curso ?: curso
+			repositorio = alumno.repositorio ?: repositorio
 		}
 
 		alumnoRepository.save(persisted)
