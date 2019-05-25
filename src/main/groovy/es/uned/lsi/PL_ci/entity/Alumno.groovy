@@ -1,23 +1,14 @@
 package es.uned.lsi.PL_ci.entity
 
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.GeneratedValue
-import javax.persistence.OneToOne
-import javax.persistence.Table
-import javax.persistence.GenerationType
+import javax.persistence.*
 import javax.validation.constraints.NotNull
-import javax.persistence.Column
-import javax.persistence.ManyToOne
-import javax.persistence.JoinColumn
-
 
 @Entity
 @Table(name = "alumnos")
 class Alumno {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alumno_id_gen")
+    @SequenceGenerator(name = "alumno_id_gen", sequenceName = "alumno_id_seq")
     @Column(name = 'alumno_id')
     Integer alumnoId
 
@@ -39,13 +30,14 @@ class Alumno {
 
     @NotNull
     @Column(nullable=false)
-    Integer curso
+    String curso
 
     String repositorio
 
     @OneToOne(
             fetch = FetchType.LAZY,
-            mappedBy = 'alumno'
+            mappedBy = 'alumno',
+            cascade = CascadeType.ALL
     )
     User user
 }

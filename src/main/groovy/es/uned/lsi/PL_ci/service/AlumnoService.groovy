@@ -4,15 +4,17 @@ package es.uned.lsi.PL_ci.service
 import es.uned.lsi.PL_ci.entity.Alumno
 
 interface AlumnoService {
-	List<Alumno> findAll()
+    List<Alumno> findAll()
 
-	Alumno findById(int alumno_id)
+    List<Alumno> findByCurso(String curso)
 
-	Alumno findByUserId(String id)
+    Alumno findById(int alumno_id)
 
-	Alumno save(Alumno alumno)
+    Alumno findByUserId(String id)
 
-	Alumno update(Alumno alumno, int alumno_id)
+    Alumno save(Alumno alumno)
 
-	Alumno deleteById(int alumno_id)
+    Alumno update(Alumno alumno, int alumno_id)
+
+    Alumno deleteById(int alumno_id)
 }

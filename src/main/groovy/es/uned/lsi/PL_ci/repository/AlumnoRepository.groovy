@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository
 interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
     List<Alumno> findAll()
 
+    List<Alumno> findByCurso(String curso)
+
     Alumno findByAlumnoId(Integer alumno_id)
 
     Alumno findByUserUsername(String user_id)

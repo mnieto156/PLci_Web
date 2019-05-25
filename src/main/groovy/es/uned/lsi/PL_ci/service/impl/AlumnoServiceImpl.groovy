@@ -1,11 +1,11 @@
 package es.uned.lsi.PL_ci.service.impl
 
-
-import es.uned.lsi.PL_ci.entity.User
 import es.uned.lsi.PL_ci.entity.Alumno
-import es.uned.lsi.PL_ci.service.RoleService
-import es.uned.lsi.PL_ci.service.AlumnoService
+import es.uned.lsi.PL_ci.entity.User
 import es.uned.lsi.PL_ci.repository.AlumnoRepository
+import es.uned.lsi.PL_ci.service.AlumnoService
+import es.uned.lsi.PL_ci.service.RoleService
+import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -20,11 +20,19 @@ class AlumnoServiceImpl implements AlumnoService {
 	RoleService roleService
 
 	@Autowired
+	UserService userService
+
+	@Autowired
 	PasswordEncoder passwordEncoder
 	
 	@Override
 	List<Alumno> findAll() {
 		alumnoRepository.findAll().asList()
+	}
+
+	@Override
+	List<Alumno> findByCurso(String curso) {
+		alumnoRepository.findByCurso(curso)
 	}
 
 	@Override
@@ -41,14 +49,15 @@ class AlumnoServiceImpl implements AlumnoService {
 	Alumno save(Alumno alumno) {
 		if (alumno.user == null) {
 			alumno.user = new User(
-					username: alumno.correo.replaceAll('@*', ''),
+					username: alumno.correo.replaceAll('@.*', ''),
 					password: 'changeme'
 			)
 		}
 		alumno.user.password = passwordEncoder.encode(alumno.user.password)
 		alumno.user.alumno = alumno
 		alumno.user.authorities = [roleService.findByIdOrError("Alumno")]
-		alumnoRepository.save(alumno)
+		//userService.create	alumno.user
+		alumnoRepository.save alumno
 	}
 
 	@Override

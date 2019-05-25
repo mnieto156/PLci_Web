@@ -1,4 +1,4 @@
-layout 'layouts/main.tpl',true,
+layout 'layouts/alumnoLayout.tpl',true,
 	pageTitle: "Alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
 	mainBody: contents{
 	  form(action:'guardarAlumno', method:'POST'){
