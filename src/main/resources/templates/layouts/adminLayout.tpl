@@ -23,7 +23,7 @@ layout 'layouts/main.tpl',true,
                         }
                         ul(class:"dropdown-menu"){
                             //a(class:"dropdown-item", href:"/alumnos/$usuId/ficha", 'Ficha')
-                            a(class:"dropdown-item", href:"/alumnos/$usuId/notas", 'Notas')
+                            a(class:"dropdown-item", href:"/alumnos/nuevo/ficha", 'Nuevo Alumno')
                             li(class:"dropdown-divider"){}
                             a(class:"dropdown-item", href:"/logout", 'Salir')
                         }

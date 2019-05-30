@@ -27,7 +27,7 @@ mainBody: contents{
 						}
 				    }
 				    td{
-				        a(href:"$alumno.alumnoId",'Ver avances')
+				        a(href:"$alumno.user.username/avances",'Ver avances')
 				    }
 				}
 	      	}

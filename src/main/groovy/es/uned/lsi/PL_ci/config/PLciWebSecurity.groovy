@@ -93,15 +93,6 @@ class PLciWebSecurity extends WebSecurityConfigurerAdapter {
             userRepository.save(userAdmin)
         }
 
-        def userAlumno = userRepository.findById('mnieto156').orElse(null)
-        if (userAlumno == null) {
-            userAlumno = new User(
-                    username: 'mnieto156',
-                    password: passwordEncoder.encode('deunan'),
-                    authorities: [roleAlumno])
-            userRepository.save(userAlumno)
-
-        }
 
     }
 }

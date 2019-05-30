@@ -51,12 +51,12 @@ class AlumnosController {
                 "views/listaAlumnos", [alumnos: alumnoService.findByCurso(curso), userName: user.username])
     }
 
-    @RequestMapping(value = '{alumno_id}')
-    @PreAuthorize('hasRole("ROLE_ADMIN")')
-// @PreAuthorize('hasRole("ROLE_Admin") or #alumno_id == principal.alumno.alumnoId')
-    def vistaAlumno(@PathVariable('alumno_id') int alumno_id, @AuthenticationPrincipal User user) {
+    @RequestMapping(value = '{user_id}/avances')
+    //@PreAuthorize('hasRole("ROLE_ADMIN")')
+    @PreAuthorize('hasRole("ADMIN") or #user_id == principal.username')
+    def vistaAlumno(@PathVariable('user_id') String user_id, @AuthenticationPrincipal User user) {
         new ModelAndView(
-                "views/vistaAlumno", [alumno: alumnoService.findById(alumno_id), userName: user.username])
+                "views/vistaAlumno", [alumno: alumnoService.findByUserId(user_id), userName: user.username])
     }
 
     @RequestMapping(value = "{user_id}/ficha", method = RequestMethod.GET)
@@ -107,21 +107,24 @@ class AlumnosController {
         new ModelAndView("redirect:ficha", "user_id", user_id)
     }
 
-    @RequestMapping(value = '{alumno_id}/commits')
-    def listaCommitsAlumno(@PathVariable('alumno_id') int alumno_id) {
+    @RequestMapping(value = '{user_id}/commits')
+    @PreAuthorize('hasRole("ADMIN") or #alumno_id == principal.username')
+    def listaCommitsAlumno(@PathVariable('user_id') String user_id) {
+        def alumno = alumnoService.findByUserId(user_id)
         new ModelAndView(
-                "views/listaCommits", [alumno: alumnoService.findById(alumno_id), commits: commitService.findByAlumnoAlumnoId(alumno_id, Sort.by(Sort.Direction.DESC, "commitFecha"))]
+                "views/listaCommits", [alumno: alumno, commits: commitService.findByAlumnoAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha"))]
         )
     }
 
-    @RequestMapping(value = '{alumno_id}/commits/{commit_id}')
-    def vistaCommit(@PathVariable('commit_id') int commit_id, @PathVariable('alumno_id') int alumno_id) {
+    @RequestMapping(value = '{user_id}/commits/{commit_id}')
+    @PreAuthorize('hasRole("ADMIN") or #user_id == principal.username')
+    def vistaCommit(@PathVariable('commit_id') int commit_id, @PathVariable('user_id') String user_id) {
         def commit = commitService.findById(commit_id)
-        if (commit.alumno.alumnoId == alumno_id) {
+        def alumno = alumnoService.findByUserId(user_id)
+        if (commit.alumno.alumnoId == alumno.alumnoId) {
             new ModelAndView(
-                    "views/listaErrores", [alumno: alumnoService.findById(alumno_id), commit: commit]
+                    "views/listaErrores", [alumno: alumno, commit: commit]
             )
         }
-
     }
 }

@@ -20,7 +20,7 @@ layout 'layouts/adminLayout.tpl',true,
                 td("$alumno.correo")
                 td("$alumno.curso")
                 td{a(href:"$alumno.repositorio","Gitea")}
-                td{a(href:"$alumno.alumnoId/commits", 'Commits')}
+                td{a(href:"commits", 'Commits')}
             }
         }
 

@@ -13,73 +13,72 @@ import org.springframework.stereotype.Service
 @Service
 class AlumnoServiceImpl implements AlumnoService {
 
-	@Autowired
-	private final AlumnoRepository alumnoRepository
+    @Autowired
+    private final AlumnoRepository alumnoRepository
 
-	@Autowired
-	RoleService roleService
+    @Autowired
+    RoleService roleService
 
-	@Autowired
-	UserService userService
+    @Autowired
+    UserService userService
 
-	@Autowired
-	PasswordEncoder passwordEncoder
-	
-	@Override
-	List<Alumno> findAll() {
-		alumnoRepository.findAll().asList()
-	}
+    @Autowired
+    PasswordEncoder passwordEncoder
 
-	@Override
-	List<Alumno> findByCurso(String curso) {
-		alumnoRepository.findByCurso(curso)
-	}
+    @Override
+    List<Alumno> findAll() {
+        alumnoRepository.findAll().asList()
+    }
 
-	@Override
-	Alumno findById(int alumno_id) {
-		alumnoRepository.findByAlumnoId(alumno_id)
-	}
+    @Override
+    List<Alumno> findByCurso(String curso) {
+        alumnoRepository.findByCurso(curso)
+    }
 
-	@Override
-	Alumno findByUserId(String user_id) {
-		alumnoRepository.findByUserUsername(user_id)
-	}
+    @Override
+    Alumno findById(int alumno_id) {
+        alumnoRepository.findByAlumnoId(alumno_id)
+    }
 
-	@Override
-	Alumno save(Alumno alumno) {
-		if (alumno.user == null) {
-			alumno.user = new User(
-					username: alumno.correo.replaceAll('@.*', ''),
-					password: 'changeme'
-			)
-		}
-		alumno.user.password = passwordEncoder.encode(alumno.user.password)
-		alumno.user.alumno = alumno
-		alumno.user.authorities = [roleService.findByIdOrError("Alumno")]
-		//userService.create	alumno.user
-		alumnoRepository.save alumno
-	}
+    @Override
+    Alumno findByUserId(String user_id) {
+        alumnoRepository.findByUserUsername(user_id)
+    }
 
-	@Override
-	Alumno update(Alumno alumno, int alumno_id) {
-		Alumno persisted = findById(alumno_id)
-		persisted.with {
-			nombre = alumno.nombre ?: nombre
-			apellido1 = alumno.apellido1 ?: apellido1
-			apellido2 = alumno.apellido2
-			correo = alumno.correo ?: correo
-			curso = alumno.curso ?: curso
-			repositorio = alumno.repositorio ?: repositorio
-		}
+    @Override
+    Alumno save(Alumno alumno) {
+        if (alumno.user == null) {
+            alumno.user = new User(
+                    username: alumno.correo.replaceAll('@.*', ''),
+                    password: 'changeme'
+            )
+        }
+        alumno.user.password = passwordEncoder.encode(alumno.user.password)
+        alumno.user.alumno = alumno
+        alumno.user.authorities = [roleService.findByIdOrError("Alumno")]
+        alumnoRepository.save alumno
+    }
 
-		alumnoRepository.save(persisted)
-	}
+    @Override
+    Alumno update(Alumno alumno, int alumno_id) {
+        Alumno persisted = findById(alumno_id)
+        persisted.with {
+            nombre = alumno.nombre ?: nombre
+            apellido1 = alumno.apellido1 ?: apellido1
+            apellido2 = alumno.apellido2
+            correo = alumno.correo ?: correo
+            curso = alumno.curso ?: curso
+            repositorio = alumno.repositorio ?: repositorio
+        }
 
-	@Override
-	Alumno deleteById(int alumno_id) {
-		def alumno = findById(alumno_id)
-		alumnoRepository.delete(alumno)
-		alumno
+        alumnoRepository.save(persisted)
+    }
 
-	}
+    @Override
+    Alumno deleteById(int alumno_id) {
+        def alumno = findById(alumno_id)
+        alumnoRepository.delete(alumno)
+        alumno
+
+    }
 }
