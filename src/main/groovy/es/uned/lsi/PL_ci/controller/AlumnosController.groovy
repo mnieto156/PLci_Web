@@ -109,21 +109,23 @@ class AlumnosController {
 
     @RequestMapping(value = '{user_id}/commits')
     @PreAuthorize('hasRole("ADMIN") or #alumno_id == principal.username')
-    def listaCommitsAlumno(@PathVariable('user_id') String user_id) {
+    def listaCommitsAlumno(@PathVariable('user_id') String user_id, @AuthenticationPrincipal User loggedUser) {
         def alumno = alumnoService.findByUserId(user_id)
         new ModelAndView(
-                "views/listaCommits", [alumno: alumno, commits: commitService.findByAlumnoAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha"))]
+                "views/listaCommits", [alumno: alumno,
+                                                commits: commitService.findByAlumnoAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha")),
+                                                userName:loggedUser.username]
         )
     }
 
     @RequestMapping(value = '{user_id}/commits/{commit_id}')
     @PreAuthorize('hasRole("ADMIN") or #user_id == principal.username')
-    def vistaCommit(@PathVariable('commit_id') int commit_id, @PathVariable('user_id') String user_id) {
+    def vistaCommit(@PathVariable('commit_id') int commit_id, @PathVariable('user_id') String user_id, @AuthenticationPrincipal User loggedUser) {
         def commit = commitService.findById(commit_id)
         def alumno = alumnoService.findByUserId(user_id)
         if (commit.alumno.alumnoId == alumno.alumnoId) {
             new ModelAndView(
-                    "views/listaErrores", [alumno: alumno, commit: commit]
+                    "views/listaErrores", [alumno: alumno, commit: commit, userName:loggedUser.username]
             )
         }
     }

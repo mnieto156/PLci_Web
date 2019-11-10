@@ -29,7 +29,6 @@ html {
 
             }
 
-
           }
       }
 	  h2(pageTitle)

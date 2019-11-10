@@ -14,30 +14,35 @@ class HomeController {
 
     @RequestMapping("/")
     def home(@AuthenticationPrincipal User user) {
+        if (user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
+            new ModelAndView(
+                    "views/homeAdmin",
+                    [userName: user.username])
+        }
+        else {
+            new ModelAndView(
+                    "views/home",
+                    [userName: user.username])
 
-        new ModelAndView(
-                "views/home",
-                [bootVersion  : Banner.package.implementationVersion,
-                 groovyVersion: GroovySystem.version,
-                 userName     : user.username])
+        }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     def login(Model model, String error, String logout, @AuthenticationPrincipal User user) {
-        if (error != null)
+        if (error )
             model.addAttribute("error", "Error al acceder a la página")
 
-        if (user != null)
+        if (user )
             model.addAttribute("userName", user.username)
 
-        if (logout != null)
+        if (logout )
             model.addAttribute("msg", "Ha abandonado la sesión.")
 
         return "views/login"
     }
     @RequestMapping(value = "/notallowed")
     def notAllowed(Model model, String error, @AuthenticationPrincipal User user){
-        if(error != null)
+        if(error )
             model.addAttribute("error", error)
         model.addAttribute("userName",user.username)
         return 'views/notAllowed'

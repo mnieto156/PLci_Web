@@ -13,7 +13,7 @@ mainBody: contents{
       		}
       	}
       	tbody{
-      		alumnos.each { alumno ->
+      		alumnos.sort{it.alumnoId}.each { alumno ->
 	      		tr {
 	      			td("$alumno.alumnoId ")
 	      			td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
@@ -27,7 +27,7 @@ mainBody: contents{
 						}
 				    }
 				    td{
-				        a(href:"$alumno.user.username/avances",'Ver avances')
+				        a(href:"/alumnos/$alumno.user.username/avances",'Ver avances')
 				    }
 				}
 	      	}
