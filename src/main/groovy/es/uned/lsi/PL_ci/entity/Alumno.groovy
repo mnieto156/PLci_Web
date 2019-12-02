@@ -32,6 +32,9 @@ class Alumno {
     @Column(nullable=false)
     String curso
 
+    @OneToMany(mappedBy = "alumno")
+    Set<CursoAlumno> cursosAlumno
+
     String repositorio
 
     @OneToOne(

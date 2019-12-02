@@ -47,7 +47,7 @@ class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     Alumno save(Alumno alumno) {
-        if (alumno.user == null) {
+        if (!alumno.user ) {
             alumno.user = new User(
                     username: alumno.correo.replaceAll('@.*', ''),
                     password: 'changeme'
@@ -77,8 +77,7 @@ class AlumnoServiceImpl implements AlumnoService {
     @Override
     Alumno deleteById(int alumno_id) {
         def alumno = findById(alumno_id)
-        alumnoRepository.delete(alumno)
+        alumnoRepository.delete alumno
         alumno
-
     }
 }
