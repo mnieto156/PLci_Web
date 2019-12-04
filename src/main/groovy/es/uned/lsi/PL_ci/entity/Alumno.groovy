@@ -17,22 +17,27 @@ class Alumno {
     String nombre
 
     @NotNull
-    @Column(name='apellido_1',nullable = false)
+    @Column(name = 'apellido_1', nullable = false)
     String apellido1
 
-    @Column(name='apellido_2',nullable = true)
+    @Column(name = 'apellido_2', nullable = true)
     String apellido2
-    String getApellido2(){apellido2 ?: ''}
+
+    String getApellido2() { apellido2 ?: '' }
 
     @NotNull
     @Column(nullable = false)
     String correo
 
     @NotNull
-    @Column(nullable=false)
+    @Column(nullable = false)
     String curso
 
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "alumno",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true)
     Set<CursoAlumno> cursosAlumno
 
     String repositorio

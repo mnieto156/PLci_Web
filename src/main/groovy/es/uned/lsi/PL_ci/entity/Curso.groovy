@@ -21,9 +21,13 @@ class Curso {
     @Formula("concat(anio,'-',asignatura)")
     String nombre
 
-    boolean cerrado=false
+    boolean cerrado = false
 
-    @OneToMany(mappedBy = 'curso')
+    @OneToMany(
+            mappedBy = 'curso',
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     Set<CursoAlumno> cursoAlumnos
 
 

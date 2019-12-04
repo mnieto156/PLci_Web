@@ -1,7 +1,6 @@
 package es.uned.lsi.PL_ci.repository
 
-import es.uned.lsi.PL_ci.entity.Alumno
-import es.uned.lsi.PL_ci.entity.User
+import es.uned.lsi.PL_ci.entity.*
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -98,6 +97,41 @@ class AlumnoRepositoryIntegrationTest {
         alumnoRepository.save testAlumn
 
         assertThat(alumnoRepository.findByUserUsername(testAlumn.user.username)).isEqualTo testAlumn
+    }
+
+    @Test
+    void whenFindByCursoID_thenReturnAlumnos() {
+        Curso curso = new Curso(
+                anio: '2019-2020',
+                asignatura: 'PL1',
+                cursoAlumnos: new HashSet<CursoAlumno>()
+        )
+        entityManager.persist curso
+
+        Alumno testAlumn
+        testAlumn = new Alumno(
+                nombre: "Nombre",
+                apellido1: "Ap1",
+                correo: "nomAp1@test.com",
+                curso: curso.nombre ?: "${curso.anio}-${curso.asignatura}",
+                cursosAlumno: new HashSet<CursoAlumno>()
+        )
+        alumnoRepository.save testAlumn
+
+        CursoAlumno cursoAlumno = new CursoAlumno(
+                curso: curso,
+                alumno: testAlumn,
+                id: new CursoAlumnoKey(cursoId: curso.cursoId, alumnoId: testAlumn.alumnoId)
+        )
+
+        testAlumn.cursosAlumno.add cursoAlumno
+        curso.cursoAlumnos.add cursoAlumno
+
+
+        alumnoRepository.save testAlumn
+
+        List<Alumno> alumnos = alumnoRepository.findByCursosAlumnoCursoCursoId curso.cursoId
+        assertThat(alumnos.contains(testAlumn)).isTrue()
     }
 
     @After
