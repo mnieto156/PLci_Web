@@ -16,4 +16,6 @@ interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
     Alumno findByUserUsername(String userId)
 
     List<Alumno> findByCursosAlumnoCursoCursoId(Integer cursoId)
+
+    List<Alumno> findByCursosAlumnoCursoNombre(String cursoNombre)
 }

@@ -107,13 +107,17 @@ class AlumnoRepositoryIntegrationTest {
                 cursoAlumnos: new HashSet<CursoAlumno>()
         )
         entityManager.persist curso
+        entityManager.flush()
+        entityManager.refresh curso
+//        Curso persistedCurso = entityManager.find(Curso, curso.cursoId)
+        System.out.println("Curso nombre: ${curso.getNombre()}")
 
         Alumno testAlumn
         testAlumn = new Alumno(
                 nombre: "Nombre",
                 apellido1: "Ap1",
                 correo: "nomAp1@test.com",
-                curso: curso.nombre ?: "${curso.anio}-${curso.asignatura}",
+                curso: curso.getNombre() ?: "${curso.anio}-${curso.asignatura}",
                 cursosAlumno: new HashSet<CursoAlumno>()
         )
         alumnoRepository.save testAlumn
@@ -132,6 +136,8 @@ class AlumnoRepositoryIntegrationTest {
 
         List<Alumno> alumnos = alumnoRepository.findByCursosAlumnoCursoCursoId curso.cursoId
         assertThat(alumnos.contains(testAlumn)).isTrue()
+
+
     }
 
     @After

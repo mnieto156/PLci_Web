@@ -18,8 +18,12 @@ class Curso {
     @NotNull
     String asignatura
 
-    @Formula("concat(anio,'-',asignatura)")
-    String nombre
+    @Formula(value = "CONCAT(anio,'-',asignatura)")
+    private String nombre
+
+    String getNombre(){
+        return nombre
+    }
 
     boolean cerrado = false
 
