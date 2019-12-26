@@ -40,6 +40,11 @@ class Commit {
 	@ManyToOne
 	@JoinColumn(name = "alumno_id", referencedColumnName = "alumno_id", nullable = false)
 	Alumno alumno
+
+/*	@ManyToOne
+	@JoinColumn(name = "curso_id", referencedColumnName = "curso_id", nullable = false)
+	Curso curso*/
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "commit",fetch = FetchType.LAZY)
 	List<CommitError> commitErrors

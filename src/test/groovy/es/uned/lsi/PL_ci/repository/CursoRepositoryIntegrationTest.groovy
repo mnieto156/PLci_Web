@@ -39,6 +39,5 @@ class CursoRepositoryIntegrationTest {
 
         System.out.println("Curso nombre: ${foundCurso.getNombre()}")
 
-
     }
 }

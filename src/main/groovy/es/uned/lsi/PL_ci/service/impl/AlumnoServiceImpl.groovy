@@ -1,9 +1,13 @@
 package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.entity.Alumno
+import es.uned.lsi.PL_ci.entity.Curso
+import es.uned.lsi.PL_ci.entity.CursoAlumno
+import es.uned.lsi.PL_ci.entity.CursoAlumnoKey
 import es.uned.lsi.PL_ci.entity.User
 import es.uned.lsi.PL_ci.repository.AlumnoRepository
 import es.uned.lsi.PL_ci.service.AlumnoService
+import es.uned.lsi.PL_ci.service.CursoService
 import es.uned.lsi.PL_ci.service.RoleService
 import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +25,9 @@ class AlumnoServiceImpl implements AlumnoService {
 
     @Autowired
     UserService userService
+
+    @Autowired
+    CursoService cursoService
 
     @Autowired
     PasswordEncoder passwordEncoder
@@ -61,7 +68,7 @@ class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     Alumno update(Alumno alumno, int alumno_id) {
-        Alumno persisted = findById(alumno_id)
+        Alumno persisted = findById alumno_id
         persisted.with {
             nombre = alumno.nombre ?: nombre
             apellido1 = alumno.apellido1 ?: apellido1
@@ -71,13 +78,34 @@ class AlumnoServiceImpl implements AlumnoService {
             repositorio = alumno.repositorio ?: repositorio
         }
 
-        alumnoRepository.save(persisted)
+        alumnoRepository.save persisted
     }
 
     @Override
     Alumno deleteById(int alumno_id) {
-        def alumno = findById(alumno_id)
+        def alumno = findById alumno_id
         alumnoRepository.delete alumno
+        alumno
+    }
+
+    @Override
+    Alumno addCurso(int alumno_id, String nombreCurso) {
+        Curso curso = cursoService.findByNombre nombreCurso
+        Alumno alumno = findById alumno_id
+        if (!alumno?.cursosAlumno){
+            alumno.cursosAlumno = new HashSet<CursoAlumno>()
+        }
+        if (curso?.cursoAlumnos ){
+            def cursoAlumno = new CursoAlumno(
+                    curso: curso,
+                    alumno: alumno,
+                    id: new CursoAlumnoKey(cursoId: curso.cursoId, alumnoId: alumno.alumnoId),
+                    repositorio: "${curso.nombre}/${alumno.user.username}"
+            )
+            if (alumno.cursosAlumno.add(cursoAlumno) && curso.cursoAlumnos.add(cursoAlumno)){
+                alumnoRepository.save alumno
+            }
+        }
         alumno
     }
 }

@@ -17,4 +17,6 @@ interface AlumnoService {
     Alumno update(Alumno alumno, int alumno_id)
 
     Alumno deleteById(int alumno_id)
+
+    Alumno addCurso(int alumno_id, String nombreCurso)
 }
