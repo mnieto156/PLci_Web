@@ -11,10 +11,12 @@ class CursoAlumno {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId('alumnoId')
+    @JoinColumn(name = 'alumno_id')
     Alumno alumno
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId('cursoId')
+    @JoinColumn(name = 'curso_id')
     Curso curso
 
     String repositorio

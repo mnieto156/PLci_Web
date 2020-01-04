@@ -5,6 +5,7 @@ layout 'layouts/adminLayout.tpl',true,
       	thead{
       		tr{
       			th('Id')
+      			th('Curso')
       			th('URL')
 				th('Fecha')
 				th('Errores')
@@ -12,9 +13,16 @@ layout 'layouts/adminLayout.tpl',true,
       		}
       	}
       	tbody{
+      		commits.sort{it.commitFecha}
+      		commits = commits.reverse(true)
       		commits.each { commit ->
 	      		tr {
 	      			td("$commit.commitId ")
+	      			td{ if (commit.cursoAlumno){
+	      			        a(href:"$commit.cursoAlumno.curso.nombre/commits","$commit.cursoAlumno.curso.nombre")
+	      			        }
+	      			    else{"Sin curso"}
+	      			}
 	      			td{ a(href:"$commit.commitUrl ",target:'_blank','Jenkins')}
 					td("$commit.commitFecha")
 					td{ if (commit.commitNumErrores>0){

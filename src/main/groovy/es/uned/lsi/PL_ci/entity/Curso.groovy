@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull
 class Curso {
     @Id
     @GeneratedValue
+    @Column(name = "curso_id", unique = true, nullable = false)
     int cursoId
 
     @NotNull

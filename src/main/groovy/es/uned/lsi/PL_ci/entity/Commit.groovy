@@ -4,6 +4,7 @@ import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.GeneratedValue
+import javax.persistence.JoinColumns
 import javax.persistence.Table
 import javax.persistence.GenerationType
 import javax.validation.constraints.NotNull
@@ -36,14 +37,21 @@ class Commit {
 	@NotNull
 	@Column(name = "commit_num_correctos",nullable = false)
 	Integer commitNumCorrectos
-	
-	@ManyToOne
+
+/*	@ManyToOne
 	@JoinColumn(name = "alumno_id", referencedColumnName = "alumno_id", nullable = false)
 	Alumno alumno
 
-/*	@ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "curso_id", referencedColumnName = "curso_id", nullable = false)
 	Curso curso*/
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(value = [
+        @JoinColumn(name = "alumno_id", referencedColumnName = "alumno_id", updatable = false, insertable = false),
+		@JoinColumn(name = "curso_id",referencedColumnName = "curso_id", updatable = false, insertable = false)
+	])
+	CursoAlumno cursoAlumno
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "commit",fetch = FetchType.LAZY)

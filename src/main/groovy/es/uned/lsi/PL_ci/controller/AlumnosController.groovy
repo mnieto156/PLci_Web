@@ -51,22 +51,22 @@ class AlumnosController {
                 "views/listaAlumnos", [alumnos: alumnoService.findByCurso(curso), userName: user.username])
     }
 
-    @RequestMapping(value = '{user_id}/avances')
+    @RequestMapping(value = '{userId}/avances')
     //@PreAuthorize('hasRole("ROLE_ADMIN")')
-    @PreAuthorize('hasRole("ADMIN") or #user_id == principal.username')
-    def vistaAlumno(@PathVariable('user_id') String user_id, @AuthenticationPrincipal User user) {
+    @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
+    def vistaAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User user) {
         new ModelAndView(
-                "views/vistaAlumno", [alumno: alumnoService.findByUserId(user_id), userName: user.username])
+                "views/vistaAlumno", [alumno: alumnoService.findByUserId(userId), userName: user.username])
     }
 
-    @RequestMapping(value = "{user_id}/ficha", method = RequestMethod.GET)
-    @PreAuthorize('hasRole("ROLE_ADMIN") or #user_id == principal.username')
-    def fichaAlumno(@PathVariable String user_id, @AuthenticationPrincipal User user) {
+    @RequestMapping(value = "{userId}/ficha", method = RequestMethod.GET)
+    @PreAuthorize('hasRole("ROLE_ADMIN") or #userId == principal.username')
+    def fichaAlumno(@PathVariable String userId, @AuthenticationPrincipal User user) {
         if (user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
-            new ModelAndView("views/fichaAlumnoAdmin", [alumno: alumnoService.findByUserId(user_id), userName: user.username])
+            new ModelAndView("views/fichaAlumnoAdmin", [alumno: alumnoService.findByUserId(userId), userName: user.username])
         }
         else{
-            new ModelAndView("views/fichaAlumno",[userName: user.username, alumno: alumnoService.findByUserId(user_id)])
+            new ModelAndView("views/fichaAlumno",[userName: user.username, alumno: alumnoService.findByUserId(userId)])
         }
     }
 
@@ -76,13 +76,13 @@ class AlumnosController {
         new ModelAndView("views/fichaAlumnoAdmin", [alumno: new Alumno(), userName: user.username])
     }
 
-    @RequestMapping(value = "{user_id}/guardarAlumnoAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "{userId}/guardarAlumnoAdmin", method = RequestMethod.POST)
     @PreAuthorize('hasRole("ADMIN")')
-    def guardarAlumnoAdmin(@PathVariable String user_id, @AuthenticationPrincipal User loggedUser, @Valid Alumno alumno, BindingResult result, RedirectAttributes redirect) {
+    def guardarAlumnoAdmin(@PathVariable String userId, @AuthenticationPrincipal User loggedUser, @Valid Alumno alumno, BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()) {
             new ModelAndView("views/error", [userName: loggedUser.username, errors: result.allErrors])
         }
-        if (user_id == 'nuevo') {
+        if (userId == 'nuevo') {
             alumno = alumnoService.save alumno
         } else {
             alumno = alumnoService.update alumno, alumno.alumnoId
@@ -90,12 +90,12 @@ class AlumnosController {
 
 
         redirect.addFlashAttribute("globalMessage", "Cambios guardados")
-        new ModelAndView("redirect:ficha", "user_id", alumno.user.username)
+        new ModelAndView("redirect:ficha", "userId", alumno.user.username)
     }
 
-    @RequestMapping(value = "{user_id}/guardarAlumno", method = RequestMethod.POST)
-    @PreAuthorize('#user_id == principal.username')
-    def guardarAlumno(String newPassword, String oldPassword, @PathVariable String user_id, @AuthenticationPrincipal User loggedUser, Alumno alumno, BindingResult result, RedirectAttributes redirect) {
+    @RequestMapping(value = "{userId}/guardarAlumno", method = RequestMethod.POST)
+    @PreAuthorize('#userId == principal.username')
+    def guardarAlumno(String newPassword, String oldPassword, @PathVariable String userId, @AuthenticationPrincipal User loggedUser, Alumno alumno, BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()){
             new ModelAndView("views/error", [userName: loggedUser.username, errors: result.allErrors])
         }
@@ -104,29 +104,39 @@ class AlumnosController {
             userService.updatePassword alumno.user.username, newPassword
         }
         redirect.addFlashAttribute("globalMessage", "Cambios guardados")
-        new ModelAndView("redirect:ficha", "user_id", user_id)
+        new ModelAndView("redirect:ficha", "userId", userId)
     }
 
-    @RequestMapping(value = '{user_id}/commits')
-    @PreAuthorize('hasRole("ADMIN") or #alumno_id == principal.username')
-    def listaCommitsAlumno(@PathVariable('user_id') String user_id, @AuthenticationPrincipal User loggedUser) {
-        def alumno = alumnoService.findByUserId(user_id)
+    @RequestMapping(value = '{userId}/commits')
+    @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
+    def listaCommitsAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
+        def alumno = alumnoService.findByUserId(userId)
         new ModelAndView(
                 "views/listaCommits", [alumno: alumno,
-                                                commits: commitService.findByAlumnoAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha")),
+                                                commits: commitService.findByAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha")),
                                                 userName:loggedUser.username]
         )
     }
 
-    @RequestMapping(value = '{user_id}/commits/{commit_id}')
-    @PreAuthorize('hasRole("ADMIN") or #user_id == principal.username')
-    def vistaCommit(@PathVariable('commit_id') int commit_id, @PathVariable('user_id') String user_id, @AuthenticationPrincipal User loggedUser) {
-        def commit = commitService.findById(commit_id)
-        def alumno = alumnoService.findByUserId(user_id)
-        if (commit.alumno.alumnoId == alumno.alumnoId) {
+    @RequestMapping(value = '{userId}/commits/{commitId}')
+    @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
+    def vistaCommit(@PathVariable('commitId') int commitId, @PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
+        def commit = commitService.findById(commitId)
+        def alumno = alumnoService.findByUserId(userId)
+        if (commit.cursoAlumno.alumno.alumnoId == alumno.alumnoId) {
             new ModelAndView(
                     "views/listaErrores", [alumno: alumno, commit: commit, userName:loggedUser.username]
             )
         }
+    }
+    @RequestMapping(value = '{userId}/{curso}/commits')
+    @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
+    def listaCommitsAlumnoCurso(@PathVariable String userId,@PathVariable String curso, @AuthenticationPrincipal User loggedUser) {
+        def alumno = alumnoService.findByUserId(userId)
+        new ModelAndView(
+                "views/listaCommits", [alumno: alumno,
+                                       commits: commitService.findByAlumnoIdCursoNombre(alumno.alumnoId,curso),
+                                       userName:loggedUser.username]
+        )
     }
 }

@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommitRepository extends JpaRepository<Commit, Integer> {
-	Commit findByCommitId(Integer commit_id)
+	Commit findByCommitId(Integer commitId)
 
-    List<Commit> findByAlumnoAlumnoId(Integer alumno_id)
+    List<Commit> findByCursoAlumnoAlumnoAlumnoId(Integer alumnoId)
 
-    List<Commit> findByAlumnoAlumnoId(int alumno_id, Sort sort)
+    List<Commit> findByCursoAlumnoAlumnoAlumnoId(int alumnoId, Sort sort)
+
+    List<Commit> findByCursoAlumnoCursoNombreAndCursoAlumnoAlumnoAlumnoId(String cursoNombre, int alumnoId)
 }

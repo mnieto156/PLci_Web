@@ -13,17 +13,22 @@ class CommitServiceImpl implements CommitService {
 	private final CommitRepository commitRepository
 
 	@Override
-	Commit findById(int commit_id) {
-		commitRepository.findByCommitId(commit_id)
+	Commit findById(int commitId) {
+		commitRepository.findByCommitId(commitId)
 	}
 
 	@Override
-    List<Commit> findByAlumnoAlumnoId(int alumno_id) {
-        commitRepository.findByAlumnoAlumnoId(alumno_id)
+    List<Commit> findByAlumnoId(int alumnoId) {
+        commitRepository.findByCursoAlumnoAlumnoAlumnoId(alumnoId)
 	}
 
 	@Override
-    List<Commit> findByAlumnoAlumnoId(int alumno_id, Sort sort) {
-        commitRepository.findByAlumnoAlumnoId(alumno_id, sort)
+    List<Commit> findByAlumnoId(int alumnoId, Sort sort) {
+        commitRepository.findByCursoAlumnoAlumnoAlumnoId(alumnoId, sort)
+	}
+
+	@Override
+	List<Commit> findByAlumnoIdCursoNombre(int alumnoId, String cursoNombre) {
+		commitRepository.findByCursoAlumnoCursoNombreAndCursoAlumnoAlumnoAlumnoId(cursoNombre,alumnoId)
 	}
 }
