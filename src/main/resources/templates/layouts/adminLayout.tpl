@@ -10,6 +10,9 @@ layout 'layouts/main.tpl',true,
                     li(class: 'nav-item'){
                         a(class:'nav-link',href:'/alumnos/lista','Alumnos')
                     }
+                    li(class: 'nav-item'){
+                        a(class:'nav-link',href:'/cursos/lista','Cursos')
+                    }
                     li(class: 'nav-item') {
                         a(class:'nav-link',href:'#','Ayuda')
                     }
@@ -21,9 +24,10 @@ layout 'layouts/main.tpl',true,
                         a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown"){
                             yield "$usuId"
                         }
-                        ul(class:"dropdown-menu"){
+                        ul(class:"dropdown-menu dropdown-menu-right"){
                             //a(class:"dropdown-item", href:"/alumnos/$usuId/ficha", 'Ficha')
                             a(class:"dropdown-item", href:"/alumnos/nuevo/ficha", 'Nuevo Alumno')
+                            a(class:"dropdown-item", href:"/cursos/nuevo/", 'Nuevo Curso')
                             li(class:"dropdown-divider"){}
                             a(class:"dropdown-item", href:"/logout", 'Salir')
                         }

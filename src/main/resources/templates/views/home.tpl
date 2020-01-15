@@ -3,4 +3,5 @@ layout 'layouts/alumnoLayout.tpl',true,
 	mainBody: contents{
 
       h3("Bienvenido Alumno: $userName")
+
 }

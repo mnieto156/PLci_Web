@@ -13,14 +13,14 @@ layout 'layouts/adminLayout.tpl',true,
       		}
       	}
       	tbody{
-      		commits.sort{it.commitFecha}
-      		commits = commits.reverse(true)
+      		/*commits.sort{it.commitFecha}
+      		commits.reverse(true)*/
       		commits.each { commit ->
 	      		tr {
 	      			td("$commit.commitId ")
 	      			td{ if (commit.cursoAlumno){
 	      			        a(href:"$commit.cursoAlumno.curso.nombre/commits","$commit.cursoAlumno.curso.nombre")
-	      			        }
+	      			    }
 	      			    else{"Sin curso"}
 	      			}
 	      			td{ a(href:"$commit.commitUrl ",target:'_blank','Jenkins')}
@@ -35,4 +35,5 @@ layout 'layouts/adminLayout.tpl',true,
 	      	}
       	}
       }
+
     }

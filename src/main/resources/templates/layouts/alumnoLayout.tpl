@@ -7,6 +7,9 @@ layout 'layouts/main.tpl',true,
             }
             div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
                 ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
+                    li(class: 'nav-item'){
+                        a(class:'nav-link',href:"/alumnos/$usuId/avances",'Progresos')
+                    }
                     li(class: 'nav-item') {
                         a(class:'nav-link',href:'#','Ayuda')
                     }
@@ -18,7 +21,7 @@ layout 'layouts/main.tpl',true,
                         a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown"){
                             yield "$usuId"
                         }
-                        ul(class:"dropdown-menu"){
+                        ul(class:"dropdown-menu dropdown-menu-right"){
                             a(class:"dropdown-item", href:"/alumnos/$usuId/ficha", 'Ficha')
                             a(class:"dropdown-item", href:"/alumnos/$usuId/notas", 'Notas')
                             li(class:"dropdown-divider"){}

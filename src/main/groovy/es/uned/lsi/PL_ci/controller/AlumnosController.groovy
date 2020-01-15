@@ -7,6 +7,7 @@ import es.uned.lsi.PL_ci.service.CommitService
 import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
+import org.springframework.data.web.SortDefault
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -109,11 +110,11 @@ class AlumnosController {
 
     @RequestMapping(value = '{userId}/commits')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
-    def listaCommitsAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
+    def listaCommitsAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser, @SortDefault(sort="commitFecha",direction = Sort.Direction.DESC) Sort sort) {
         def alumno = alumnoService.findByUserId(userId)
         new ModelAndView(
                 "views/listaCommits", [alumno: alumno,
-                                                commits: commitService.findByAlumnoId(alumno.alumnoId, Sort.by(Sort.Direction.DESC, "commitFecha")),
+                                                commits: commitService.findByAlumnoId(alumno.alumnoId, sort),
                                                 userName:loggedUser.username]
         )
     }
