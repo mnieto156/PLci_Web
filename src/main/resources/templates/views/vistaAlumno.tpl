@@ -18,8 +18,8 @@ layout 'layouts/adminLayout.tpl',true,
                 td("$alumno.alumnoId ")
                 td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
                 td("$alumno.correo")
-                td("$alumno.curso")
-                td{a(href:"$alumno.repositorio","Gitea")}
+                td("$alumno.cursosAlumno.curso.nombre")
+                td{a(href:"$alumno.cursosAlumno.repositorio","Gitea")}
                 td{a(href:"commits", 'Commits')}
             }
         }

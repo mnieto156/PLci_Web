@@ -32,11 +32,11 @@ layout 'layouts/adminLayout.tpl',true,
                 }
             div(class:'form-group col-md-2') {
                 label(for:'curso','Curso')
-                input(type:'text', class:'form-control', name:'curso', placeholder:"2019-2020", value:alumno?.curso?:'')
+                input(type:'text', class:'form-control', name:'curso', placeholder:"2019-2020", value:alumno?.cursosAlumno?.curso?.nombre?:'')
                 }
             div(class:'form-group col-md-6') {
                 label(for:'repositorio','Repositorio')
-                input(type:'text', class:'form-control', name:'repositorio', placeholder:"http://plautotest.uned.es/git/curso/userid123.git", value:alumno.repositorio?:'')
+                input(type:'text', class:'form-control', name:'repositorio', placeholder:"http://plautotest.uned.es/git/curso/userid123.git", value:alumno?.cursosAlumno?.repositorio?:'')
                 }
 		}
 		div(class:'form-row'){

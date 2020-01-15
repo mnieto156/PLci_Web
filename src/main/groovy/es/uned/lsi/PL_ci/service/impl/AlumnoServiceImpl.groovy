@@ -1,10 +1,6 @@
 package es.uned.lsi.PL_ci.service.impl
 
-import es.uned.lsi.PL_ci.entity.Alumno
-import es.uned.lsi.PL_ci.entity.Curso
-import es.uned.lsi.PL_ci.entity.CursoAlumno
-import es.uned.lsi.PL_ci.entity.CursoAlumnoKey
-import es.uned.lsi.PL_ci.entity.User
+import es.uned.lsi.PL_ci.entity.*
 import es.uned.lsi.PL_ci.repository.AlumnoRepository
 import es.uned.lsi.PL_ci.service.AlumnoService
 import es.uned.lsi.PL_ci.service.CursoService
@@ -74,8 +70,8 @@ class AlumnoServiceImpl implements AlumnoService {
             apellido1 = alumno.apellido1 ?: apellido1
             apellido2 = alumno.apellido2
             correo = alumno.correo ?: correo
-            curso = alumno.curso ?: curso
-            repositorio = alumno.repositorio ?: repositorio
+            //curso = alumno.curso ?: curso
+            //repositorio = alumno.repositorio ?: repositorio
         }
 
         alumnoRepository.save persisted

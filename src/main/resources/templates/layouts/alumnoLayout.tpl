@@ -8,7 +8,7 @@ layout 'layouts/main.tpl',true,
             div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
                 ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
                     li(class: 'nav-item'){
-                        a(class:'nav-link',href:"/alumnos/$usuId/avances",'Progresos')
+                        a(class:'nav-link',href:"/alumnos/$userName/commits",'Progresos')
                     }
                     li(class: 'nav-item') {
                         a(class:'nav-link',href:'#','Ayuda')
@@ -18,12 +18,12 @@ layout 'layouts/main.tpl',true,
                 ul(class:"navbar-nav my-2 my-lg-0"){
                     def usuId = userName ?: 'Usuario'
                     li(class:"dropdown"){
-                        a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown"){
+                        a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown", disabled:usuId=='Usuario'){
                             yield "$usuId"
                         }
                         ul(class:"dropdown-menu dropdown-menu-right"){
-                            a(class:"dropdown-item", href:"/alumnos/$usuId/ficha", 'Ficha')
-                            a(class:"dropdown-item", href:"/alumnos/$usuId/notas", 'Notas')
+                            a(class:"dropdown-item", href:"/alumnos/$userName/ficha", 'Ficha')
+                            a(class:"dropdown-item", href:"/alumnos/$userName/notas", 'Notas')
                             li(class:"dropdown-divider"){}
                             a(class:"dropdown-item", href:"/logout", 'Salir')
                         }

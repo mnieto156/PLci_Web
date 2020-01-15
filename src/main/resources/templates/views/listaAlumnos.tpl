@@ -29,7 +29,7 @@ mainBody: contents{
                             }
                         }
                         else{
-                            a(href:"/alumnos/lista/$alumno.curso","$alumno.curso")
+                            yield('Sin Cursos')
                         }
                     }
 					td{

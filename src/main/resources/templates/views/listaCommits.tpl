@@ -1,4 +1,5 @@
-layout 'layouts/adminLayout.tpl',true,
+layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
+    true,
 	pageTitle: "Commits del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
 	mainBody: contents{
       table(class:'table table-dark table-striped'){

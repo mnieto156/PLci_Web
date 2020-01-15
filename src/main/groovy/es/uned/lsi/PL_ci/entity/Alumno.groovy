@@ -29,18 +29,12 @@ class Alumno {
     @Column(nullable = false)
     String correo
 
-    @NotNull
-    @Column(nullable = false)
-    String curso
-
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "alumno",
             cascade = CascadeType.MERGE,
             orphanRemoval = true)
     Set<CursoAlumno> cursosAlumno
-
-    String repositorio
 
     @OneToOne(
             fetch = FetchType.LAZY,

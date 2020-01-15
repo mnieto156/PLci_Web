@@ -11,17 +11,17 @@ import org.springframework.data.web.SortDefault
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 import javax.validation.Valid
 
-@RestController
+@Controller
 @RequestMapping('alumnos')
 @PreAuthorize('isAuthenticated()')
 class AlumnosController {
@@ -111,11 +111,13 @@ class AlumnosController {
     @RequestMapping(value = '{userId}/commits')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
     def listaCommitsAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser, @SortDefault(sort="commitFecha",direction = Sort.Direction.DESC) Sort sort) {
+        def isAdmin = loggedUser.authorities.any { it.authority == 'ROLE_ADMIN' }
         def alumno = alumnoService.findByUserId(userId)
         new ModelAndView(
-                "views/listaCommits", [alumno: alumno,
-                                                commits: commitService.findByAlumnoId(alumno.alumnoId, sort),
-                                                userName:loggedUser.username]
+                "views/listaCommits", [alumno  : alumno,
+                                       commits : commitService.findByAlumnoId(alumno.alumnoId, sort),
+                                       userName: loggedUser.username,
+                                       isAdmin : isAdmin]
         )
     }
 
