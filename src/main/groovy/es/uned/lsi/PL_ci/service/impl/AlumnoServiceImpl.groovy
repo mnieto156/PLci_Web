@@ -39,17 +39,17 @@ class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     List<Alumno> findByCurso(String curso) {
-        alumnoRepository.findByCurso(curso)
+        alumnoRepository.findByCursosAlumnoCursoNombre(curso)
     }
 
     @Override
-    Alumno findById(int alumno_id) {
-        alumnoRepository.findByAlumnoId(alumno_id)
+    Alumno findById(int alumnoId) {
+        alumnoRepository.findByAlumnoId(alumnoId)
     }
 
     @Override
-    Alumno findByUserId(String user_id) {
-        alumnoRepository.findByUserUsername(user_id)
+    Alumno findByUserId(String userId) {
+        alumnoRepository.findByUserUsername(userId)
     }
 
     @Override
@@ -67,8 +67,8 @@ class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    Alumno update(Alumno alumno, int alumno_id) {
-        Alumno persisted = findById alumno_id
+    Alumno update(Alumno alumno, int alumnoId) {
+        Alumno persisted = findById alumnoId
         persisted.with {
             nombre = alumno.nombre ?: nombre
             apellido1 = alumno.apellido1 ?: apellido1
@@ -82,16 +82,16 @@ class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    Alumno deleteById(int alumno_id) {
-        def alumno = findById alumno_id
+    Alumno deleteById(int alumnoId) {
+        def alumno = findById alumnoId
         alumnoRepository.delete alumno
         alumno
     }
 
     @Override
-    Alumno addCurso(int alumno_id, String nombreCurso) {
+    Alumno addCurso(int alumnoId, String nombreCurso) {
         Curso curso = cursoService.findByNombre nombreCurso
-        Alumno alumno = findById alumno_id
+        Alumno alumno = findById alumnoId
         if (!alumno?.cursosAlumno){
             alumno.cursosAlumno = new HashSet<CursoAlumno>()
         }

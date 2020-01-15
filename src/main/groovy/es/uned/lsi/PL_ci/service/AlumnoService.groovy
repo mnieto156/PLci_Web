@@ -8,15 +8,15 @@ interface AlumnoService {
 
     List<Alumno> findByCurso(String curso)
 
-    Alumno findById(int alumno_id)
+    Alumno findById(int alumnoId)
 
     Alumno findByUserId(String id)
 
     Alumno save(Alumno alumno)
 
-    Alumno update(Alumno alumno, int alumno_id)
+    Alumno update(Alumno alumno, int alumnoId)
 
-    Alumno deleteById(int alumno_id)
+    Alumno deleteById(int alumnoId)
 
-    Alumno addCurso(int alumno_id, String nombreCurso)
+    Alumno addCurso(int alumnoId, String nombreCurso)
 }

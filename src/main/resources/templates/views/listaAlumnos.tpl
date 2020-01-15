@@ -18,8 +18,19 @@ mainBody: contents{
 	      			td("$alumno.alumnoId ")
 	      			td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
 					td("$alumno.correo")
-                    td{
-                        a(href:"/alumnos/lista/$alumno.curso","$alumno.curso")
+                    td{ if (alumno.cursosAlumno){
+                            ul{
+                                alumno.cursosAlumno.curso.each { curso ->
+                                    li{
+                                        a(href:"/alumnos/lista/$curso.nombre","$curso.nombre")
+                                    }
+
+                                }
+                            }
+                        }
+                        else{
+                            a(href:"/alumnos/lista/$alumno.curso","$alumno.curso")
+                        }
                     }
 					td{
 					    if (alumno.user){
