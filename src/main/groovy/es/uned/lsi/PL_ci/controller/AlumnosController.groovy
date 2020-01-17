@@ -56,8 +56,9 @@ class AlumnosController {
     //@PreAuthorize('hasRole("ROLE_ADMIN")')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
     def vistaAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User user) {
+        def isAdmin = user.authorities.any { it.authority == 'ROLE_ADMIN' }
         new ModelAndView(
-                "views/vistaAlumno", [alumno: alumnoService.findByUserId(userId), userName: user.username])
+                "views/vistaAlumno", [alumno: alumnoService.findByUserId(userId), userName: user.username, isAdmin: isAdmin])
     }
 
     @RequestMapping(value = "{userId}/ficha", method = RequestMethod.GET)
@@ -124,22 +125,25 @@ class AlumnosController {
     @RequestMapping(value = '{userId}/commits/{commitId}')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
     def vistaCommit(@PathVariable('commitId') int commitId, @PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
+        def isAdmin = loggedUser.authorities.any { it.authority == 'ROLE_ADMIN' }
         def commit = commitService.findById(commitId)
         def alumno = alumnoService.findByUserId(userId)
         if (commit.cursoAlumno.alumno.alumnoId == alumno.alumnoId) {
             new ModelAndView(
-                    "views/listaErrores", [alumno: alumno, commit: commit, userName:loggedUser.username]
+                    "views/listaErrores", [alumno: alumno, commit: commit, userName:loggedUser.username, isAdmin: isAdmin]
             )
         }
     }
     @RequestMapping(value = '{userId}/{curso}/commits')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
-    def listaCommitsAlumnoCurso(@PathVariable String userId,@PathVariable String curso, @AuthenticationPrincipal User loggedUser) {
+    def listaCommitsAlumnoCurso(@PathVariable String userId,@PathVariable String curso, @AuthenticationPrincipal User loggedUser, @SortDefault(sort="commitFecha",direction = Sort.Direction.DESC) Sort sort) {
+        def isAdmin = loggedUser.authorities.any { it.authority == 'ROLE_ADMIN' }
         def alumno = alumnoService.findByUserId(userId)
         new ModelAndView(
                 "views/listaCommits", [alumno: alumno,
-                                       commits: commitService.findByAlumnoIdCursoNombre(alumno.alumnoId,curso),
-                                       userName:loggedUser.username]
+                                       commits: commitService.findByAlumnoIdCursoNombre(alumno.alumnoId,curso,sort),
+                                       userName:loggedUser.username,
+                                       isAdmin : isAdmin]
         )
     }
 }

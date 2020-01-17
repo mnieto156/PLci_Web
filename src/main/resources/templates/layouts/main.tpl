@@ -4,7 +4,12 @@ html {
     meta(name:'viewport', content:'width=device-width, initial-scale=1, shrink-to-fit=no')
 	title(pageTitle)
 	link(rel: 'stylesheet', href: '/webjars/bootstrap/css/bootstrap.min.css')
+	link(rel: 'stylesheet', type:'text/css', href:'https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css')
   }
+  	script(src:'/webjars/jquery/jquery.min.js'){}
+  	script(src:'/webjars/popper.js/umd/popper.min.js'){}
+  	script(src:'/webjars/bootstrap/js/bootstrap.min.js'){}
+  	script(src:'https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js'){}
    body {
 	div(class: 'jumbotron text-center'){
 		h1('Sistema de pruebas automatizadas de Procesadores de Lenguaje')
@@ -34,9 +39,7 @@ html {
 	  h2(pageTitle)
 	  mainBody()
 	}
-	script(src:'/webjars/jquery/jquery.min.js'){}
-	script(src:'/webjars/popper.js/umd/popper.min.js'){}
-	script(src:'/webjars/bootstrap/js/bootstrap.min.js'){}
+
 
   }
 }

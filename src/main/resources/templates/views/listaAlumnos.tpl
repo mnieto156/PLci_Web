@@ -1,7 +1,7 @@
 layout 'layouts/adminLayout.tpl', true,
 pageTitle: 'Alumnos de Procesadores de Lenguaje',
 mainBody: contents{
-      table(class:'table table-dark table-striped'){
+      table(id:'alumnos', class:'table table-dark table-striped'){
       	thead{
       		tr{
       			th('Id')
@@ -44,4 +44,11 @@ mainBody: contents{
 	      	}
       	}
       }
+        script(){
+            yieldUnescaped ''' $(document).ready(function(){
+                $('#alumnos').DataTable( {
+                    "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"}
+                });
+            });'''
+        }
     }

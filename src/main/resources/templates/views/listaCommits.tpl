@@ -20,14 +20,14 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
 	      		tr {
 	      			td("$commit.commitId ")
 	      			td{ if (commit.cursoAlumno){
-	      			        a(href:"$commit.cursoAlumno.curso.nombre/commits","$commit.cursoAlumno.curso.nombre")
+	      			        a(href:"/alumnos/$alumno.user.username/$commit.cursoAlumno.curso.nombre/commits","$commit.cursoAlumno.curso.nombre")
 	      			    }
 	      			    else{"Sin curso"}
 	      			}
 	      			td{ a(href:"$commit.commitUrl ",target:'_blank','Jenkins')}
 					td("$commit.commitFecha")
 					td{ if (commit.commitNumErrores>0){
-					        a(href:"commits/$commit.commitId","$commit.commitNumErrores")
+					        a(href:"/alumnos/$alumno.user.username/commits/$commit.commitId","$commit.commitNumErrores")
 					    }
 					    else {"$commit.commitNumErrores"}
 					}

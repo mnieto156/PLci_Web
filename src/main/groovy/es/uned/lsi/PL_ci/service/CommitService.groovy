@@ -10,5 +10,5 @@ interface CommitService {
 
     List<Commit> findByAlumnoId(int alumnoId, Sort sort)
 
-    List<Commit> findByAlumnoIdCursoNombre(int alumnoId, String cursoNombre)
+    List<Commit> findByAlumnoIdCursoNombre(int alumnoId, String cursoNombre, Sort sort)
 }

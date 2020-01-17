@@ -25,14 +25,6 @@ layout 'layouts/alumnoLayout.tpl',true,
                 label(for:'correo','Correo')
                 input(type:'email', class:'form-control', name:'correo', placeholder:"$alumno.correo", value:alumno.correo, disabled:true)
                 }
-            div(class:'form-group col-md-2') {
-                label(for:'curso','Curso')
-                input(type:'text', class:'form-control', name:'curso', placeholder:"$alumno.curso", value:alumno.curso, disabled:true)
-                }
-            div(class:'form-group col-md-6') {
-                label(for:'repositorio','Repositorio')
-                input(type:'text', class:'form-control', name:'repositorio', placeholder:"$alumno.repositorio", value:alumno.repositorio?:'', disabled:true)
-                }
 		}
 		div(class:'form-row'){
             div(class:'form-group col-md-4') {

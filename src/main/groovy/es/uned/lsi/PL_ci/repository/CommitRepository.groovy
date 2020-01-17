@@ -13,5 +13,5 @@ interface CommitRepository extends JpaRepository<Commit, Integer> {
 
     List<Commit> findByCursoAlumnoAlumnoAlumnoId(int alumnoId, Sort sort)
 
-    List<Commit> findByCursoAlumnoCursoNombreAndCursoAlumnoAlumnoAlumnoId(String cursoNombre, int alumnoId)
+    List<Commit> findByCursoAlumnoCursoNombreAndCursoAlumnoAlumnoAlumnoId(String cursoNombre, int alumnoId, Sort sort)
 }
