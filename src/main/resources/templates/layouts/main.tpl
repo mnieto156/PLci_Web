@@ -4,7 +4,8 @@ html {
     meta(name:'viewport', content:'width=device-width, initial-scale=1, shrink-to-fit=no')
 	title(pageTitle)
 	link(rel: 'stylesheet', href: '/webjars/bootstrap/css/bootstrap.min.css')
-	link(rel: 'stylesheet', type:'text/css', href:'https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css')
+	link(rel: 'stylesheet', href: 'https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css')
+	link(rel: 'stylesheet', href: '/webjars/font-awesome/css/font-awesome.min.css')
   }
   	script(src:'/webjars/jquery/jquery.min.js'){}
   	script(src:'/webjars/popper.js/umd/popper.min.js'){}

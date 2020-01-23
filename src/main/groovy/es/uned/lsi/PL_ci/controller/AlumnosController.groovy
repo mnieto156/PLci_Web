@@ -4,6 +4,7 @@ import es.uned.lsi.PL_ci.entity.Alumno
 import es.uned.lsi.PL_ci.entity.User
 import es.uned.lsi.PL_ci.service.AlumnoService
 import es.uned.lsi.PL_ci.service.CommitService
+import es.uned.lsi.PL_ci.service.CursoService
 import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
@@ -38,6 +39,9 @@ class AlumnosController {
     @Autowired
     private final PasswordEncoder passwordEncoder
 
+    @Autowired
+    private final CursoService cursoService
+
     @RequestMapping(value = 'lista', method = RequestMethod.GET)
     @PreAuthorize('hasRole("ADMIN")')
     def listaAlumnos(@AuthenticationPrincipal User user) {
@@ -65,7 +69,7 @@ class AlumnosController {
     @PreAuthorize('hasRole("ROLE_ADMIN") or #userId == principal.username')
     def fichaAlumno(@PathVariable String userId, @AuthenticationPrincipal User user) {
         if (user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
-            new ModelAndView("views/fichaAlumnoAdmin", [alumno: alumnoService.findByUserId(userId), userName: user.username])
+            new ModelAndView("views/fichaAlumnoAdmin", [alumno: alumnoService.findByUserId(userId), userName: user.username, cursos: cursoService.findAll()])
         }
         else{
             new ModelAndView("views/fichaAlumno",[userName: user.username, alumno: alumnoService.findByUserId(userId)])
@@ -80,7 +84,10 @@ class AlumnosController {
 
     @RequestMapping(value = "{userId}/guardarAlumnoAdmin", method = RequestMethod.POST)
     @PreAuthorize('hasRole("ADMIN")')
-    def guardarAlumnoAdmin(@PathVariable String userId, @AuthenticationPrincipal User loggedUser, @Valid Alumno alumno, BindingResult result, RedirectAttributes redirect) {
+    def guardarAlumnoAdmin(@PathVariable String userId,
+                           @AuthenticationPrincipal User loggedUser,
+                           @Valid Alumno alumno, String cursoAdd,
+                           BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()) {
             new ModelAndView("views/error", [userName: loggedUser.username, errors: result.allErrors])
         }
@@ -88,11 +95,14 @@ class AlumnosController {
             alumno = alumnoService.save alumno
         } else {
             alumno = alumnoService.update alumno, alumno.alumnoId
+            if (cursoAdd?.length() > 0) {
+                alumno = alumnoService.addCurso alumno.alumnoId, cursoAdd
+            }
         }
 
 
         redirect.addFlashAttribute("globalMessage", "Cambios guardados")
-        new ModelAndView("redirect:ficha", "userId", alumno.user.username)
+        new ModelAndView("redirect:ficha")
     }
 
     @RequestMapping(value = "{userId}/guardarAlumno", method = RequestMethod.POST)
@@ -106,7 +116,7 @@ class AlumnosController {
             userService.updatePassword alumno.user.username, newPassword
         }
         redirect.addFlashAttribute("globalMessage", "Cambios guardados")
-        new ModelAndView("redirect:ficha", "userId", userId)
+        new ModelAndView("redirect:ficha")
     }
 
     @RequestMapping(value = '{userId}/commits')
@@ -134,15 +144,16 @@ class AlumnosController {
             )
         }
     }
-    @RequestMapping(value = '{userId}/{curso}/commits')
+
+    @RequestMapping(value = '{userId}/{cursoNombre}/commits')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
-    def listaCommitsAlumnoCurso(@PathVariable String userId,@PathVariable String curso, @AuthenticationPrincipal User loggedUser, @SortDefault(sort="commitFecha",direction = Sort.Direction.DESC) Sort sort) {
+    def listaCommitsAlumnoCurso(@PathVariable String userId, @PathVariable String cursoNombre, @AuthenticationPrincipal User loggedUser, @SortDefault(sort = "commitFecha", direction = Sort.Direction.DESC) Sort sort) {
         def isAdmin = loggedUser.authorities.any { it.authority == 'ROLE_ADMIN' }
         def alumno = alumnoService.findByUserId(userId)
         new ModelAndView(
-                "views/listaCommits", [alumno: alumno,
-                                       commits: commitService.findByAlumnoIdCursoNombre(alumno.alumnoId,curso,sort),
-                                       userName:loggedUser.username,
+                "views/listaCommits", [alumno  : alumno,
+                                       commits : commitService.findByAlumnoIdCursoNombre(alumno.alumnoId, cursoNombre, sort),
+                                       userName: loggedUser.username,
                                        isAdmin : isAdmin]
         )
     }

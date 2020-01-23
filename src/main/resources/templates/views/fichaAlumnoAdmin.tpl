@@ -30,14 +30,6 @@ layout 'layouts/adminLayout.tpl',true,
                 label(for:'correo','Correo')
                 input(type:'email', class:'form-control', name:'correo', placeholder:"userid123@alumno.uned.es", value:alumno?.correo?:'')
                 }
-            div(class:'form-group col-md-2') {
-                label(for:'curso','Curso')
-                input(type:'text', class:'form-control', name:'curso', placeholder:"2019-2020", value:alumno?.cursosAlumno?.curso?.nombre?:'')
-                }
-            div(class:'form-group col-md-6') {
-                label(for:'repositorio','Repositorio')
-                input(type:'text', class:'form-control', name:'repositorio', placeholder:"http://plautotest.uned.es/git/curso/userid123.git", value:alumno?.cursosAlumno?.repositorio?:'')
-                }
 		}
 		div(class:'form-row'){
 
@@ -48,5 +40,48 @@ layout 'layouts/adminLayout.tpl',true,
                 }
 		}
         input(type:'hidden',name:'alumnoId',value:alumno?.alumnoId)
+
+        if(alumno?.nombre){
+            table(id:'cursosAlumno', class:'table table-dark table-striped'){
+                caption('Cursos del alumno')
+                thead{
+                    tr{
+                        th('Nombre')
+                        th('Repositorio')
+                    }
+                }
+                tbody{
+                    if (alumno?.cursosAlumno){
+                        alumno.cursosAlumno.each{cursoAlumno->
+                            tr{
+                                td("$cursoAlumno.curso.nombre")
+                                td("$cursoAlumno.repositorio")
+                            }
+                        }
+                    }
+                }
+
+            }
+            div(class:'form-row'){
+                div(class:'form-group col-md-4'){
+                    select(id:'cursoAdd', name:'cursoAdd', class:'custom-select'){
+                        option(selected:true, value:'', 'Elige curso')
+                        cursos.each { curso->
+                            if (!curso.cerrado){
+                                option(value:curso.nombre, curso.nombre)
+                            }
+                        }
+                    }
+                }
+                div(class:'form-group col-md-2'){
+                    button(type:'submit', class:'btn btn-md btn-secondary btn-block', id:'addCurso', title:'Añadir curso'){
+                        yield 'Añadir a curso '
+                        i(class:'fa fa-plus-square')
+                    }
+                }
+            }
+
         }
+
 	  }
+    }
