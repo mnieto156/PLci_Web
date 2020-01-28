@@ -1,6 +1,7 @@
 package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.entity.Curso
+import es.uned.lsi.PL_ci.entity.CursoAlumno
 import es.uned.lsi.PL_ci.repository.CursoRepository
 import es.uned.lsi.PL_ci.service.CursoService
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,10 +40,19 @@ class CursoServiceImpl implements CursoService {
     @Override
     Curso updateCerrado(int id, boolean cerrado) {
         Curso persisted = findById(id)
-        if (persisted){
+        if (persisted) {
             persisted.cerrado = cerrado
-        cursoRepository.save persisted
+            cursoRepository.save persisted
+            //ToDo: cerrar repositorios Gitea
         }
         persisted
+    }
+
+    @Override
+    Curso save(Curso curso) {
+        if (!curso.cursoAlumnos) {
+            curso.cursoAlumnos = new HashSet<CursoAlumno>()
+        }
+        cursoRepository.save curso
     }
 }

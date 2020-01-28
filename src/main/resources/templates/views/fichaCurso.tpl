@@ -10,16 +10,17 @@ layout 'layouts/adminLayout.tpl',true,
 	        div(class:'form-row'){
                 div(class:'form-group col-md-6') {
                     select(id:'cursoAnio', name:'cursoAnio', class:'custom-select'){
-                        def listaAnios = 1998..2035 //set as minYear..maxYear
-                        def date = new Date()
+                        def date = new Date().getYear()+1900
+                        def listaAnios = date-5..date+10 //set as minYear..maxYear
+
                         for(def anio: listaAnios){
-                            option(selected:anio=date[Calendar.YEAR],value:"${anio}-${anio+1}","${anio}-${anio+1}")
+                            option(value:"${anio}-${anio+1}","${anio}-${anio+1}")
                         }
                     }
 
                 }
                 div(class:'form-group col-md-2') {
-                    select(id:'cursoAsignatura', name:'cursoAsignatura', class:'custom-select'{
+                    select(id:'cursoAsignatura', name:'cursoAsignatura', class:'custom-select'){
                         option('PL1')
                         option('PL2')
                     }
@@ -32,4 +33,14 @@ layout 'layouts/adminLayout.tpl',true,
                 }
             }
 	    }
+	    script(){
+            yieldUnescaped ''' $(document).ready(function(){
+
+                var currentYear = (new Date).getFullYear();
+                var nextYear = currentYear+1;
+                var cursoActual = currentYear +'-'+nextYear;
+                $("#cursoAnio option").filter(function(){
+                    return $(this).text()==cursoActual;}).prop("selected",true);
+            }); '''
+        }
 	}

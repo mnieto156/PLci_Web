@@ -14,5 +14,7 @@ interface CursoService {
 
     List<Curso> findByAsignatura(String asignatura)
 
-    Curso updateCerrado(int id, boolean  cerrado)
+    Curso updateCerrado(int id, boolean cerrado)
+
+    Curso save(Curso curso)
 }

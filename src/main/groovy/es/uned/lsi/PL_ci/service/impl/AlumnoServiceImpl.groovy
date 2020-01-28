@@ -96,7 +96,7 @@ class AlumnoServiceImpl implements AlumnoService {
                     curso: curso,
                     alumno: alumno,
                     id: new CursoAlumnoKey(cursoId: curso.cursoId, alumnoId: alumno.alumnoId),
-                    repositorio: "http://my.plci.local/gitea/${curso.nombre}/${alumno.user.username}.git" //ToDo: tomar la ruta inicial de un proprties
+                    repositorio: "http://my.plci.local/gitea/${curso.nombre}/${alumno.user.username}.git" //ToDo: tomar la ruta inicial de un properties
             )
             if (!alumno.cursosAlumno.find { it.id = cursoAlumno.id } && alumno.cursosAlumno.add(cursoAlumno) && curso.cursoAlumnos.add(cursoAlumno)) {
                 alumnoRepository.save alumno

@@ -92,11 +92,11 @@ class AlumnosController {
             new ModelAndView("views/error", [userName: loggedUser.username, errors: result.allErrors])
         }
         if (userId == 'nuevo') {
-            alumno = alumnoService.save alumno
+            alumnoService.save alumno
         } else {
             alumno = alumnoService.update alumno, alumno.alumnoId
             if (cursoAdd?.length() > 0) {
-                alumno = alumnoService.addCurso alumno.alumnoId, cursoAdd
+                alumnoService.addCurso alumno.alumnoId, cursoAdd
             }
         }
 
