@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull
 @Table(name = 'cursos')
 class Curso {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "curso_id_gen")
+    @SequenceGenerator(name = "curso_id_gen", sequenceName = "curso_id_seq")
     @Column(name = "curso_id", unique = true, nullable = false)
     int cursoId
 

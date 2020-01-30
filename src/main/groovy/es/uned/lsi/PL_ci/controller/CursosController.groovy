@@ -21,7 +21,7 @@ class CursosController {
     private final CursoService cursoService
 
 
-    @GetMapping('lista')
+    @GetMapping('findAll')
     List<Curso> findAll() {
         cursoService.findAll()
     }
@@ -37,9 +37,25 @@ class CursosController {
     }
 
     @RequestMapping('nuevo/guardarCurso')
-    def guardarCurso(@AuthenticationPrincipal User user, String cursoAnio, String cursoAsignatura) {
+    def guardarCurso(String cursoAnio, String cursoAsignatura) {
         def curso = new Curso(anio: cursoAnio, asignatura: cursoAsignatura)
         cursoService.save curso
-        new ModelAndView('redirect:lista')
+        new ModelAndView('redirect:/cursos/lista')
     }
+
+    @RequestMapping('lista')
+    def lista(@AuthenticationPrincipal User user) {
+        def cursos = cursoService.findAll()
+        new ModelAndView('views/listaCursos', [userName: user.username, cursos: cursos])
+    }
+
+    @RequestMapping('{cursoNombre}/cerrarCurso')
+    def cerrarCurso(@PathVariable String cursoNombre) {
+        Curso curso = cursoService.findByNombre(cursoNombre)
+        //.orElseThrow(() -> new ResourceNotFoundException("Curso","nombre", cursoNombre))
+
+        cursoService.updateCerrado(curso.cursoId, true)
+        new ModelAndView("redirect:/cursos/lista")
+    }
+
 }

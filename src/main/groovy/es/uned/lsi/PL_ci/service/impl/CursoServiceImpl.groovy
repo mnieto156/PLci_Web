@@ -50,9 +50,13 @@ class CursoServiceImpl implements CursoService {
 
     @Override
     Curso save(Curso curso) {
-        if (!curso.cursoAlumnos) {
-            curso.cursoAlumnos = new HashSet<CursoAlumno>()
-        }
-        cursoRepository.save curso
+        Curso persisted = findByNombre(curso.anio + '-' + curso.asignatura)
+        if (!persisted) {
+            if (!curso.cursoAlumnos) {
+                curso.cursoAlumnos = new HashSet<CursoAlumno>()
+            }
+            //ToDo: crear repositorio base de Gitea
+            cursoRepository.save curso
+        } else persisted
     }
 }

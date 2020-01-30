@@ -2,7 +2,7 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
     true,
 	pageTitle: "Commits del alumno $alumno.nombre $alumno.apellido1 $alumno.apellido2",
 	mainBody: contents{
-      table(class:'table table-dark table-striped'){
+      table(class:'table table-dark table-striped', id:'commits'){
       	thead{
       		tr{
       			th('Id')
@@ -35,6 +35,14 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
 	      		}
 	      	}
       	}
+      }
+      script(){
+          yieldUnescaped ''' $(document).ready(function(){
+              $('#commits').DataTable( {
+                  "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"},
+                  "order":[[3,"desc"]]
+              });
+          });'''
       }
 
     }
