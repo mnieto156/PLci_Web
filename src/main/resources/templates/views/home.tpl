@@ -1,5 +1,7 @@
-layout 'layouts/main.tpl',
-	pageTitle: 'Página Principal de Sistema CI/CD de Procesadores de Lenguaje',
+layout 'layouts/alumnoLayout.tpl',true,
+	pageTitle: 'PÃ¡gina principal',
 	mainBody: contents{
-      div("This is an application using Boot $bootVersion and Groovy templates $groovyVersion")
+
+        h3("Bienvenido Alumno: $userName")
+
 }

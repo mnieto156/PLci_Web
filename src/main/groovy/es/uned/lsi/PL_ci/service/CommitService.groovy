@@ -4,9 +4,11 @@ import es.uned.lsi.PL_ci.entity.Commit
 import org.springframework.data.domain.Sort
 
 interface CommitService {
-	Commit findById(int commit_id)
-	
-	List<Commit> findByUsuarioUsuarioId(int usuario_id)
+	Commit findById(int commitId)
 
-	List<Commit> findByUsuarioUsuarioId(int usuario_id, Sort sort)
+    List<Commit> findByAlumnoId(int alumnoId)
+
+    List<Commit> findByAlumnoId(int alumnoId, Sort sort)
+
+    List<Commit> findByAlumnoIdCursoNombre(int alumnoId, String cursoNombre, Sort sort)
 }
