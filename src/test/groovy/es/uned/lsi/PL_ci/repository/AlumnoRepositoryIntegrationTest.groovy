@@ -40,18 +40,19 @@ class AlumnoRepositoryIntegrationTest {
     @Test
     void whenFindAll_thenReturnAlumnos() {
 
+        def numAlumn = alumnoRepository.findAll().size()
         alumnoRepository.save new Alumno(
                 nombre: "Nombre",
                 apellido1: "Ap1",
                 correo: "nomAp1@test.com")
-        assertThat(alumnoRepository.findAll()).hasSize 1
+        assertThat(alumnoRepository.findAll()).hasSize numAlumn + 1
 
         alumnoRepository.save new Alumno(
                 nombre: "Nombre",
                 apellido1: "Ap2",
                 correo: "nomAp2@test.com"
         )
-        assertThat(alumnoRepository.findAll()).hasSize 2
+        assertThat(alumnoRepository.findAll()).hasSize numAlumn + 2
     }
 
 /*    @Test
@@ -94,15 +95,15 @@ class AlumnoRepositoryIntegrationTest {
 
     @Test
     void whenFindByCursoID_thenReturnAlumnos() {
-        Curso curso = new Curso(
-                anio: '2019-2020',
-                asignatura: 'PL1',
-                cursoAlumnos: new HashSet<CursoAlumno>()
-        )
-        entityManager.persist curso
-        entityManager.flush()
-        entityManager.refresh curso
-//        Curso persistedCurso = entityManager.find(Curso, curso.cursoId)
+//        Curso curso = new Curso(
+//                anio: '2019-2020',
+//                asignatura: 'PL1',
+//                cursoAlumnos: new HashSet<CursoAlumno>()
+//        )
+//        entityManager.persist curso
+//        entityManager.flush()
+//        entityManager.refresh curso
+        Curso curso = entityManager.find(Curso, 51)
         System.out.println("Curso nombre: ${curso.getNombre()}")
 
         Alumno testAlumn

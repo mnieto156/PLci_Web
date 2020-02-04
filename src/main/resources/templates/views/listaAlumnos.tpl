@@ -13,7 +13,7 @@ mainBody: contents{
       		}
       	}
       	tbody{
-      		alumnos.sort{it.alumnoId}.each { alumno ->
+      		alumnos.each { alumno ->
 	      		tr {
 	      			td("$alumno.alumnoId ")
 	      			td("$alumno.nombre $alumno.apellido1 $alumno.apellido2")
@@ -24,7 +24,6 @@ mainBody: contents{
                                     li{
                                         a(href:"/alumnos/lista/$curso.nombre","$curso.nombre")
                                     }
-
                                 }
                             }
                         }
@@ -37,8 +36,8 @@ mainBody: contents{
 						    a(href:"/alumnos/$alumno.user.username/ficha",'Ficha')
 						}
 				    }
-				    td{
-				        a(href:"/alumnos/$alumno.user.username/avances",'Ver avances')
+				    td{ if (alumno.cursosAlumno){
+				        a(href:"/alumnos/$alumno.user.username/avances",'Ver avances')}
 				    }
 				}
 	      	}

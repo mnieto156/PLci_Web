@@ -19,5 +19,10 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',true,
 	      	}
       	}
       }
+      div(class:"col-md-4"){
+          button(class:"btn btn-lg btn-secondary btn-block", onclick:"history.go(-1);", title:"Volver a la página anterior"){
+              yield "Volver"
+          }
+      }
     }
 
