@@ -1,6 +1,7 @@
 package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.config.AppConfig
+import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
 import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.GiteaService
 import org.slf4j.Logger
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono
 
 @Service
 class GiteaServiceImpl implements GiteaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GiteaServiceImpl.class)
+    private static final Logger logger = LoggerFactory.getLogger(GiteaServiceImpl.class)
     private final WebClient webClient
 
     @Autowired
@@ -36,11 +37,19 @@ class GiteaServiceImpl implements GiteaService {
                 .bodyToMono(GiteaUser)
     }
 
+    @Override
+    Mono<GiteaRepo> getRepoOfUser(String username, String reponame) {
+        webClient.get()
+                .uri("/repos/${username}/${reponame}")
+                .retrieve()
+                .bodyToMono(GiteaRepo)
+    }
+
     private ExchangeFilterFunction logRequest() {
         ExchangeFilterFunction.ofRequestProcessor({ clientRequest ->
-            if (LOGGER.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 StringBuilder sb = new StringBuilder("Request: \n")
-                //append clientRequest method and url
+
                 clientRequest
                         .headers()
                         .forEach({ name, values ->
@@ -48,7 +57,7 @@ class GiteaServiceImpl implements GiteaService {
                                 sb.append("${name}=${value}")
                             })
                         })
-                LOGGER.info sb.toString()
+                logger.info sb.toString()
             }
             Mono.just(clientRequest)
         })

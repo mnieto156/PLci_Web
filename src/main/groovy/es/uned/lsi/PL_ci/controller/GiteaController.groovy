@@ -1,5 +1,6 @@
 package es.uned.lsi.PL_ci.controller
 
+import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
 import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.GiteaService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,5 +17,10 @@ class GiteaController {
     @GetMapping("/gitea/{username}")
     Mono<GiteaUser> getUser(@PathVariable String username) {
         giteaService.getUser(username)
+    }
+
+    @GetMapping("/gitea/{username}/{reponame}")
+    Mono<GiteaRepo> getRepoOfUser(@PathVariable String username, @PathVariable String reponame) {
+        giteaService.getRepoOfUser(username, reponame)
     }
 }

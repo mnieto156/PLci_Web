@@ -7,5 +7,5 @@ class GiteaUser {
     String full_name
     String password
     Boolean is_admin
-
+    Boolean active
 }
