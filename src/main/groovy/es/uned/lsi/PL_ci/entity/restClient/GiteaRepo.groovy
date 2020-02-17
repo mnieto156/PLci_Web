@@ -1,10 +1,13 @@
 package es.uned.lsi.PL_ci.entity.restClient
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 class GiteaRepo {
     Integer id
     String name
     String description
     //String owner
+    @JsonProperty("private")
     private Boolean _private
 
     void setPrivate(boolean p) {
@@ -15,4 +18,5 @@ class GiteaRepo {
         return this._private
     }
     Boolean archived
+    String html_url
 }

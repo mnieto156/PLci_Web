@@ -3,16 +3,25 @@ package es.uned.lsi.PL_ci.controller
 import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
 import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.GiteaService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
 
 @RestController
 class GiteaController {
     @Autowired
     private GiteaService giteaService
+
+    private static final Logger logger = LoggerFactory.getLogger(GiteaController)
+
 
     @GetMapping("/gitea/{username}")
     Mono<GiteaUser> getUser(@PathVariable String username) {
@@ -22,5 +31,23 @@ class GiteaController {
     @GetMapping("/gitea/{username}/{reponame}")
     Mono<GiteaRepo> getRepoOfUser(@PathVariable String username, @PathVariable String reponame) {
         giteaService.getRepoOfUser(username, reponame)
+    }
+
+    @GetMapping("/gitea/{username}/allrepos")
+    Mono<List<GiteaRepo>> getAllReposOfUser(@PathVariable String username){
+        giteaService.getAllReposOfUser(username)
+    }
+    @PostMapping("/gitea/{newUser}")
+    Mono<GiteaUser> addNewUser(@PathVariable String newUser){
+        giteaService.addUser new GiteaUser(
+                username: newUser,
+                email: "${newUser}@alumno.uned.es",
+                password: 'changeMe.1234')
+    }
+
+    @ExceptionHandler(WebClientResponseException)
+    ResponseEntity<String> handleWebClientResponseException(WebClientResponseException ex) {
+        logger.error "Error from WebClient - Status ${ex.getRawStatusCode()}, Body ${ex.getResponseBodyAsString()}", ex
+        ResponseEntity.status(ex.getRawStatusCode()).body ex.getResponseBodyAsString()
     }
 }

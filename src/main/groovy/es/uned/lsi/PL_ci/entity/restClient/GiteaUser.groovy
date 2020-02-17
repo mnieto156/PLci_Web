@@ -8,4 +8,6 @@ class GiteaUser {
     String password
     Boolean is_admin
     Boolean active
+    Boolean allow_create_organization
+    Integer max_repo_creation
 }
