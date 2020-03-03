@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
 
 @RestController
+@RequestMapping("giteaRESTClient")
 class GiteaController {
     @Autowired
     private GiteaService giteaService
@@ -23,21 +25,21 @@ class GiteaController {
     private static final Logger logger = LoggerFactory.getLogger(GiteaController)
 
 
-    @GetMapping("/gitea/{username}")
+    @GetMapping("/{username}")
     Mono<GiteaUser> getUser(@PathVariable String username) {
         giteaService.getUser(username)
     }
 
-    @GetMapping("/gitea/{username}/{reponame}")
+    @GetMapping("/{username}/{reponame}")
     Mono<GiteaRepo> getRepoOfUser(@PathVariable String username, @PathVariable String reponame) {
         giteaService.getRepoOfUser(username, reponame)
     }
 
-    @GetMapping("/gitea/{username}/allrepos")
+    @GetMapping("/{username}/allrepos")
     Mono<List<GiteaRepo>> getAllReposOfUser(@PathVariable String username){
         giteaService.getAllReposOfUser(username)
     }
-    @PostMapping("/gitea/{newUser}")
+    @PostMapping("/{newUser}")
     Mono<GiteaUser> addNewUser(@PathVariable String newUser){
         giteaService.addUser new GiteaUser(
                 username: newUser,

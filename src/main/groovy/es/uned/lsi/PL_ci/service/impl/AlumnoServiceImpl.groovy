@@ -123,7 +123,7 @@ class AlumnoServiceImpl implements AlumnoService {
                 cursoAlumno.repositorio=giteaRepo.html_url
                 alumno.cursosAlumno.add(cursoAlumno)
                 curso.cursoAlumnos.add(cursoAlumno)
-                alumnoRepository.save alumno
+                alumno = alumnoRepository.save alumno
             }
         }
         alumno

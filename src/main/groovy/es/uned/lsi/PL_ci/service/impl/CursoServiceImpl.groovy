@@ -50,10 +50,10 @@ class CursoServiceImpl implements CursoService {
             persisted.cerrado = cerrado
             cursoRepository.save persisted
             //ToDo: cerrar repositorios Gitea
-            def repoList = giteaService.getAllReposOfUser(persisted.nombre).block()
+            def repoList = giteaService.getAllReposOfUser(persisted.nombre).block() // comprobar que hay repos
             repoList.each { repo ->
                 repo.archived = cerrado
-                giteaService.updateRepo(repo,persisted.nombre)
+                giteaService.updateRepo(repo,persisted.nombre).block()
             }
         }
         persisted
@@ -67,14 +67,19 @@ class CursoServiceImpl implements CursoService {
             if (!curso.cursoAlumnos) {
                 curso.cursoAlumnos = new HashSet<CursoAlumno>()
             }
-            //ToDo: crear repositorio base de Gitea? - No puede hacerse fork de un repositorio propio!!
             def giteaUser = new GiteaUser(
                     username: nombreCurso,
                     password: curso.asignatura + '.Admin_' + curso.anio,
                     email: 'adminpl@uned.es')
             giteaService.addUser(giteaUser).block()
-            def giteaBaseRepo = new GiteaRepo(name:'base')
-            giteaService.addRepo(giteaBaseRepo,nombreCurso).block()
+            //ToDo: crear repositorio base de Gitea?
+            // - No puede hacerse fork de un repositorio propio!!
+
+            def giteaBaseRepo = new GiteaRepo(name:'base', description: "Repositorio base del curso ${nombreCurso}")
+            giteaBaseRepo.private=true
+            //giteaBaseRepo.template=true // repositorio como template no expuesto al api :(
+            giteaBaseRepo = giteaService.addRepo(giteaBaseRepo,nombreCurso).block()
+            curso.baseRepository = giteaBaseRepo.html_url
             cursoRepository.save curso
         } else persisted
     }

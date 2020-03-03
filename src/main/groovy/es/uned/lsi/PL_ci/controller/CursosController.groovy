@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
 @RestController
-@RequestMapping('cursos')
+@RequestMapping('/cursos')
 @PreAuthorize('isAuthenticated() and hasRole("ADMIN")')
 class CursosController {
 

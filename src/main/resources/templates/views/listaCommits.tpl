@@ -45,7 +45,14 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
           yieldUnescaped ''' $(document).ready(function(){
               $('#commits').DataTable( {
                   "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"},
-                  "order":[[3,"desc"]]
+                  "order":[[3,"desc"]],
+                  "columnDefs": [
+                      {
+                          "targets": [0],
+                          "visible": false,
+                          "searchable": false
+                      }
+                  ]
               });
           });'''
       }

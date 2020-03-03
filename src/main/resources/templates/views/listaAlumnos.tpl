@@ -46,7 +46,14 @@ mainBody: contents{
         script(){
             yieldUnescaped ''' $(document).ready(function(){
                 $('#alumnos').DataTable( {
-                    "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"}
+                    "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"},
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ]
                 });
             });'''
         }

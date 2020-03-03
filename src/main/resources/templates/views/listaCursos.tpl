@@ -27,7 +27,7 @@ mainBody: contents{
                         }
                     }
 					td{
-					    a(href:"http://my.plci.local/gitea",'Gitea')
+					    a(href:curso.baseRepository?:"http://my.plci.local/gitea", target:"_blank",'Gitea')
 				    }
 				    td{
 				        if(!curso.cerrado){
@@ -47,7 +47,14 @@ mainBody: contents{
             yieldUnescaped ''' $(document).ready(function(){
                 $('#cursos').DataTable( {
                     "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"},
-                    "order": [[1,"desc"],[2,"desc"]]
+                    "order": [[1,"desc"],[2,"desc"]],
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ]
                 });
             });'''
         }

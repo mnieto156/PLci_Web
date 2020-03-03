@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import javax.validation.Valid
 
 @Controller
-@RequestMapping('alumnos')
+@RequestMapping('/alumnos')
 @PreAuthorize('isAuthenticated()')
 class AlumnosController {
 

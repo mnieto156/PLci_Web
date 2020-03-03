@@ -18,5 +18,6 @@ class GiteaRepo {
         return this._private
     }
     Boolean archived
+    Boolean template
     String html_url
 }
