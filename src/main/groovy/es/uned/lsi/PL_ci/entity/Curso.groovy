@@ -12,7 +12,7 @@ class Curso {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "curso_id_gen")
     @SequenceGenerator(name = "curso_id_gen", sequenceName = "curso_id_seq", allocationSize = 1)
     @Column(name = "curso_id", unique = true, nullable = false)
-    int cursoId
+    Integer cursoId
 
     @NotNull
     String anio

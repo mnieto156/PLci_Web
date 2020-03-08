@@ -27,7 +27,7 @@ mainBody: contents{
                         }
                     }
 					td{
-					    a(href:curso.baseRepository?:"http://my.plci.local/gitea", target:"_blank",'Gitea')
+					    a(href:curso.baseRepository?:"http://gitea.plci.local", target:"_blank",'Gitea')
 				    }
 				    td{
 				        if(!curso.cerrado){
