@@ -49,4 +49,7 @@ class Commit {
     @JsonManagedReference
     @OneToMany(mappedBy = "commit", fetch = FetchType.LAZY)
     List<CommitError> commitErrors
+
+    @OneToMany(mappedBy = "commit", fetch = FetchType.LAZY)
+    Set<Comentario> comentarios = new HashSet<Comentario>()
 }
