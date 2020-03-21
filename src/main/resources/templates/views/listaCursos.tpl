@@ -46,7 +46,7 @@ mainBody: contents{
         script(){
             yieldUnescaped ''' $(document).ready(function(){
                 $('#cursos').DataTable( {
-                    "language": { "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"},
+                    "language": { "url":"/webjars/datatables-plugins/i18n/Spanish.json"},
                     "order": [[1,"desc"],[2,"desc"]]
                 });
             });'''

@@ -12,8 +12,18 @@ class ComentarioServiceImpl implements ComentarioService {
     @Autowired
     private final ComentarioRepository comentarioRepository
 
-    List<Comentario> findByCommitCommitId(Integer id){
+    @Override
+    List<Comentario> findByCommitCommitId(Integer id) {
         return comentarioRepository.findByCommitCommitId(id)
     }
 
+    @Override
+    Comentario save(Comentario comentario) {
+        if (comentario.user && comentario.commit) {
+            comentario.contenido = comentario.username + ': ' + comentario.contenido
+            comentario.user.comentarios.add comentario
+            comentario.commit.comentarios.add comentario
+            comentarioRepository.save(comentario)
+        } else null
+    }
 }
