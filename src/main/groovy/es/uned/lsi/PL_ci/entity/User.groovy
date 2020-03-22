@@ -3,14 +3,7 @@ package es.uned.lsi.PL_ci.entity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.userdetails.UserDetails
 
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.ManyToMany
-import javax.persistence.OneToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name='users')
@@ -37,5 +30,9 @@ class User implements  UserDetails{
             joinColumns = @JoinColumn(name = 'username'),
             inverseJoinColumns = @JoinColumn(name = 'authority'))
     Set<Role> authorities
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    Set<Comentario> comentarios
 
 }
