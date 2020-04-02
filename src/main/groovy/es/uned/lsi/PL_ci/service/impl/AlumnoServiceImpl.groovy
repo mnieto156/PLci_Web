@@ -58,7 +58,7 @@ class AlumnoServiceImpl implements AlumnoService {
         }
         alumno.user.password = passwordEncoder.encode(alumno.user.password)
         alumno.user.alumno = alumno
-        alumno.user.authorities = [roleService.findByIdOrError("Alumno")]
+        alumno.user.authorities = [roleService.findByIdOrError("ROLE_ALUMNO")]
         alumnoRepository.save alumno
     }
 
