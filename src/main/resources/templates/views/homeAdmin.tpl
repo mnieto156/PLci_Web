@@ -3,14 +3,17 @@ layout 'layouts/adminLayout.tpl',true,
 	mainBody: contents{
 
         div(class:'card', style:'width: 24rem;'){
-            div(class:'card-body', ){
-                h3("Bienvenido: $userName")
+            h3(class:'card-header'){ yield "Bienvenido: $userName"}
+            div(class:'card-body' ){
+
                 p(class:'card-text'){ yield 'Es usted administrador de esta aplicación'}
-                button(type:'button', class: "btn btn-secondary ", title:'Cambiar contraseña', "data-toggle":"modal", "data-target":"#changepass"){
-                    yield 'Cambiar contraseña'
-                }
-                button(type:'button', class: "btn btn-secondary ", title:'Nuevo Administrador', "data-toggle":"modal", "data-target":"#newadmin"){
-                    yield 'Nuevo administrador'
+                div(class:'btn-group', role:'group'){
+                    button(type:'button', class: "btn btn-secondary ", title:'Cambiar contraseña', "data-toggle":"modal", "data-target":"#changepass"){
+                        yield 'Cambiar contraseña'
+                    }
+                    button(type:'button', class: "btn btn-secondary ", title:'Nuevo Administrador', "data-toggle":"modal", "data-target":"#newadmin"){
+                        yield 'Nuevo administrador'
+                    }
                 }
             }
 
