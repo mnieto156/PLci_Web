@@ -32,6 +32,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-webflux'
     //compile 'org.springframework.boot:spring-boot-starter-jetty'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    compile 'org.webjars:datatables:1.10.20'
+    compile 'org.webjars:datatables-plugins:1.10.20'
+    compile 'org.webjars:momentjs:2.24.0'
     //implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'

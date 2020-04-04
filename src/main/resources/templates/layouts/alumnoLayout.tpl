@@ -18,7 +18,7 @@ layout 'layouts/main.tpl',true,
                 ul(class:"navbar-nav my-2 my-lg-0"){
                     def usuId = userName ?: 'Usuario'
                     li(class:"dropdown"){
-                        a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown", disabled:usuId=='Usuario'){
+                        a(class:"btn btn-secondary dropdown-toggle", href:'#', role:"button", "data-toggle":"dropdown", disabled:usuId=='Usuario', id:"menuUserName"){
                             yield "$usuId"
                         }
                         ul(class:"dropdown-menu dropdown-menu-right"){
