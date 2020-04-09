@@ -2,14 +2,13 @@ package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.config.AppConfig
 import es.uned.lsi.PL_ci.entity.*
-import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
-import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
 import es.uned.lsi.PL_ci.repository.AlumnoRepository
+import es.uned.lsi.PL_ci.restClient.GiteaRepo
+import es.uned.lsi.PL_ci.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.AlumnoService
 import es.uned.lsi.PL_ci.service.CursoService
 import es.uned.lsi.PL_ci.service.GiteaService
 import es.uned.lsi.PL_ci.service.RoleService
-import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -22,9 +21,6 @@ class AlumnoServiceImpl implements AlumnoService {
 
     @Autowired
     RoleService roleService
-
-    @Autowired
-    UserService userService
 
     @Autowired
     CursoService cursoService

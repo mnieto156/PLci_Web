@@ -2,9 +2,9 @@ package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.entity.Curso
 import es.uned.lsi.PL_ci.entity.CursoAlumno
-import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
-import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
 import es.uned.lsi.PL_ci.repository.CursoRepository
+import es.uned.lsi.PL_ci.restClient.GiteaRepo
+import es.uned.lsi.PL_ci.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.CursoService
 import es.uned.lsi.PL_ci.service.GiteaService
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,8 +1,8 @@
 package es.uned.lsi.PL_ci.service.impl
 
 import es.uned.lsi.PL_ci.config.AppConfig
-import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
-import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
+import es.uned.lsi.PL_ci.restClient.GiteaRepo
+import es.uned.lsi.PL_ci.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.GiteaService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,7 +15,6 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
@@ -26,8 +25,8 @@ class GiteaServiceImpl implements GiteaService {
     @Autowired
     GiteaServiceImpl(AppConfig appConfig) {
         this.webClient = WebClient.builder()
-                .baseUrl(appConfig.getGitea().baseurl + "/api/v1")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .baseUrl("${appConfig.getGitea().baseurl}/api/v1")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "token ${appConfig.getGitea().token}")
                 .filter(logRequest())
                 .build()
@@ -44,14 +43,14 @@ class GiteaServiceImpl implements GiteaService {
     @Override
     Mono<GiteaUser> addUser(GiteaUser user) {
         def uri = webClient.post().uri("/admin/users")
-        def inserter = BodyInserters.fromObject(user)
+        def inserter = BodyInserters.fromValue(user)
         uri.body(inserter).retrieve().bodyToMono(GiteaUser)
     }
 
     @Override
     Mono<GiteaUser> updateUser(GiteaUser user) {
         def uri = webClient.patch().uri("/admin/users/${user.username}")
-        def inserter = BodyInserters.fromObject(user)
+        def inserter = BodyInserters.fromValue(user)
         uri.body(inserter).retrieve().bodyToMono(GiteaUser)
     }
 
@@ -74,14 +73,14 @@ class GiteaServiceImpl implements GiteaService {
     @Override
     Mono<GiteaRepo> addRepo(GiteaRepo repo, String userAdmin) {
         def uri = webClient.post().uri("/admin/users/${userAdmin}/repos")
-        def inserter = BodyInserters.fromObject(repo)
+        def inserter = BodyInserters.fromValue(repo)
         uri.body(inserter).retrieve().bodyToMono(GiteaRepo)
     }
 
     @Override
     Mono<GiteaRepo> updateRepo(GiteaRepo repo, String userAdmin) {
         def uri = webClient.patch().uri("/repos/${userAdmin}/${repo.name}")
-        def inserter = BodyInserters.fromObject(repo)
+        def inserter = BodyInserters.fromValue(repo)
         uri.body(inserter).retrieve().bodyToMono(GiteaRepo)
     }
 

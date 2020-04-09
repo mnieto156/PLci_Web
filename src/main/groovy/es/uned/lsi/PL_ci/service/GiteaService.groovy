@@ -1,8 +1,7 @@
 package es.uned.lsi.PL_ci.service
 
-import es.uned.lsi.PL_ci.entity.restClient.GiteaRepo
-import es.uned.lsi.PL_ci.entity.restClient.GiteaUser
-import reactor.core.publisher.Flux
+import es.uned.lsi.PL_ci.restClient.GiteaRepo
+import es.uned.lsi.PL_ci.restClient.GiteaUser
 import reactor.core.publisher.Mono
 
 interface GiteaService {

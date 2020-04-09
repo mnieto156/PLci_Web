@@ -1,4 +1,4 @@
-package es.uned.lsi.PL_ci.entity.restClient
+package es.uned.lsi.PL_ci.restClient
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
