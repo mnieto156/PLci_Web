@@ -6,30 +6,21 @@ import es.uned.lsi.PL_ci.service.CursoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
-@RestController
-@RequestMapping('cursos')
+@Controller
+@RequestMapping('/cursos')
 @PreAuthorize('isAuthenticated() and hasRole("ADMIN")')
 class CursosController {
 
     @Autowired
     private final CursoService cursoService
 
-
-    @GetMapping('findAll')
-    List<Curso> findAll() {
-        cursoService.findAll()
-    }
-
-    @GetMapping('{cursoNombre}')
-    Curso getCursoByNombre(@PathVariable String cursoNombre) {
-        cursoService.findByNombre cursoNombre
-    }
 
     @RequestMapping('nuevo')
     def nuevoCurso(@AuthenticationPrincipal User user) {
@@ -51,7 +42,7 @@ class CursosController {
 
     @RequestMapping('{cursoNombre}/cerrarCurso')
     def cerrarCurso(@PathVariable String cursoNombre) {
-        Curso curso = cursoService.findByNombre(cursoNombre)
+        Curso curso = cursoService.findByNombre cursoNombre
         //.orElseThrow(() -> new ResourceNotFoundException("Curso","nombre", cursoNombre))
 
         cursoService.updateCerrado(curso.cursoId, true)

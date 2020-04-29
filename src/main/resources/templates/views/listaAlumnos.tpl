@@ -47,6 +47,13 @@ mainBody: contents{
             yieldUnescaped ''' $(document).ready(function(){
                 $('#alumnos').DataTable( {
                     "language": { "url":"/webjars/datatables-plugins/i18n/Spanish.json"}
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ]
                 });
             });'''
         }

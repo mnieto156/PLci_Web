@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
 
+import javax.servlet.http.HttpServletRequest
+
 @Controller
 class HomeController {
 
     @RequestMapping("/")
-    def home(@AuthenticationPrincipal User user) {
+    def home(@AuthenticationPrincipal User user, HttpServletRequest request) {
+        def context = request.getContextPath()
         if (user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
             new ModelAndView(
                     "views/homeAdmin",
@@ -28,7 +31,8 @@ class HomeController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    def login(Model model, String error, String logout, @AuthenticationPrincipal User user) {
+    def login(Model model, String error, String logout, @AuthenticationPrincipal User user, HttpServletRequest request) {
+        def ctx = request.getContextPath()
         if (error )
             model.addAttribute("error", "Error al acceder a la página")
 

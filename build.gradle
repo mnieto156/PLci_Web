@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
-    id 'war'
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'java'
     id 'groovy'
 }
 
@@ -15,7 +15,9 @@ sourceCompatibility = '1.8'
 repositories {
     mavenCentral()
 }
-
+//configurations {
+//    compile.exclude module: 'spring-boot-starter-tomcat'
+//}
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,6 +29,9 @@ dependencies {
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.36'
     compile 'org.webjars:bootstrap:4.3.1'
     compile 'org.webjars:font-awesome:4.7.0'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    //compile 'org.springframework.boot:spring-boot-starter-jetty'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compile 'org.webjars:datatables:1.10.20'
     compile 'org.webjars:datatables-plugins:1.10.20'
     compile 'org.webjars:momentjs:2.24.0'
@@ -34,7 +39,10 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     testRuntimeOnly 'com.h2database:h2'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+}
+bootJar {
+    destinationDirectory=file("D:\\Vagrant-Docker\\host")
 }

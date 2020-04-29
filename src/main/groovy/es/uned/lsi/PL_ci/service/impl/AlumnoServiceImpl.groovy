@@ -1,11 +1,14 @@
 package es.uned.lsi.PL_ci.service.impl
 
+import es.uned.lsi.PL_ci.config.AppConfig
 import es.uned.lsi.PL_ci.entity.*
 import es.uned.lsi.PL_ci.repository.AlumnoRepository
+import es.uned.lsi.PL_ci.restClient.GiteaRepo
+import es.uned.lsi.PL_ci.restClient.GiteaUser
 import es.uned.lsi.PL_ci.service.AlumnoService
 import es.uned.lsi.PL_ci.service.CursoService
+import es.uned.lsi.PL_ci.service.GiteaService
 import es.uned.lsi.PL_ci.service.RoleService
-import es.uned.lsi.PL_ci.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -20,13 +23,16 @@ class AlumnoServiceImpl implements AlumnoService {
     RoleService roleService
 
     @Autowired
-    UserService userService
-
-    @Autowired
     CursoService cursoService
 
     @Autowired
+    GiteaService giteaService
+
+    @Autowired
     PasswordEncoder passwordEncoder
+
+    @Autowired
+    AppConfig appConfig
 
     @Override
     List<Alumno> findAll() {
@@ -51,10 +57,19 @@ class AlumnoServiceImpl implements AlumnoService {
     @Override
     Alumno save(Alumno alumno) {
         if (!alumno.user ) {
-            alumno.user = new User(
+            def user = new User(
                     username: alumno.correo.replaceAll('@.*', ''),
-                    password: 'changeme'
+                    password: 'changeMe.1234'
             )
+            alumno.user = user
+            def giteaUser = new GiteaUser(
+                    username: user.username,
+                    password: user.password,
+                    email: alumno.correo )
+            giteaUser = giteaService.addUser(giteaUser).block()
+            giteaUser.allow_create_organization = false
+            giteaUser.max_repo_creation = 0
+            giteaService.updateUser(giteaUser).block()
         }
         alumno.user.password = passwordEncoder.encode(alumno.user.password)
         alumno.user.alumno = alumno
@@ -70,8 +85,6 @@ class AlumnoServiceImpl implements AlumnoService {
             apellido1 = alumno.apellido1 ?: apellido1
             apellido2 = alumno.apellido2
             correo = alumno.correo ?: correo
-            //curso = alumno.curso ?: curso
-            //repositorio = alumno.repositorio ?: repositorio
         }
 
         alumnoRepository.save persisted
@@ -96,10 +109,17 @@ class AlumnoServiceImpl implements AlumnoService {
                     curso: curso,
                     alumno: alumno,
                     id: new CursoAlumnoKey(cursoId: curso.cursoId, alumnoId: alumno.alumnoId),
-                    repositorio: "http://my.plci.local/gitea/${curso.nombre}/${alumno.user.username}.git" //ToDo: tomar la ruta inicial de un properties
+                    repositorio: "${appConfig.getGitea().baseurl}/${curso.nombre}/${alumno.user.username}.git"
             )
-            if (!alumno.cursosAlumno.find { it.id = cursoAlumno.id } && alumno.cursosAlumno.add(cursoAlumno) && curso.cursoAlumnos.add(cursoAlumno)) {
-                alumnoRepository.save alumno
+            if (!alumno.cursosAlumno.find { it.id = cursoAlumno.id } ){
+                def giteaRepo = new GiteaRepo(name:alumno.user.username)
+                giteaRepo.setPrivate(true)
+                giteaRepo = giteaService.addRepo(giteaRepo,curso.nombre).block()
+                giteaService.addCollaboratorToRepo(giteaRepo.name,curso.nombre,alumno.user.username).block()
+                cursoAlumno.repositorio=giteaRepo.html_url
+                alumno.cursosAlumno.add(cursoAlumno)
+                curso.cursoAlumnos.add(cursoAlumno)
+                alumno = alumnoRepository.save alumno
             }
         }
         alumno

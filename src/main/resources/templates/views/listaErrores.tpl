@@ -13,7 +13,7 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',true,
       		commit.commitErrors.each { commitError ->
 	      		tr {
 	      			td("$commitError.errorId ")
-	      			td{ a(href:"http://my.plci.local/jenkins$commitError.errorUrl/log ",target:'_blank','Jenkins log')}
+	      			td{ a(href:"http://jenkins.plci.local/$commitError.errorUrl/log ",target:'_blank','Jenkins log')}
 					td("$commitError.errorStageName")
 	      		}
 	      	}
