@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 import javax.transaction.Transactional
 
 @RestController
-@RequestMapping("comentarios")
+@RequestMapping("/comentarios")
 @Transactional
 @PreAuthorize("isAuthenticated()")
 class ComentariosController {

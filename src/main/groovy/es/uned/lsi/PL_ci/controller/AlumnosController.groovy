@@ -59,7 +59,7 @@ class AlumnosController {
     @RequestMapping(value = '{userId}/avances')
     //@PreAuthorize('hasRole("ROLE_ADMIN")')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
-    def vistaAlumno(@PathVariable('userId') String userId, @AuthenticationPrincipal User user) {
+    def vistaAlumnoAvances(@PathVariable('userId') String userId, @AuthenticationPrincipal User user) {
         def isAdmin = user.authorities.any { it.authority == 'ROLE_ADMIN' }
         new ModelAndView(
                 "views/vistaAlumno", [alumno: alumnoService.findByUserId(userId), userName: user.username, isAdmin: isAdmin])
@@ -134,7 +134,7 @@ class AlumnosController {
 
     @RequestMapping(value = '{userId}/commits/{commitId}')
     @PreAuthorize('hasRole("ADMIN") or #userId == principal.username')
-    def vistaCommit(@PathVariable('commitId') int commitId, @PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
+    def vistaCommitError(@PathVariable('commitId') int commitId, @PathVariable('userId') String userId, @AuthenticationPrincipal User loggedUser) {
         def isAdmin = loggedUser.authorities.any { it.authority == 'ROLE_ADMIN' }
         def commit = commitService.findById(commitId)
         def alumno = alumnoService.findByUserId(userId)
