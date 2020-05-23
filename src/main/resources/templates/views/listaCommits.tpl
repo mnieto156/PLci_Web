@@ -48,7 +48,8 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
                 yield "Volver"
             }
         }
-        div(class:"modal fade", id:"comentarios"){
+
+        div(class:"modal fade", id:"comentarios", tabindex="-1"){
             div(class:"modal-dialog modal-lg"){
                 div(class:"modal-content"){
 
@@ -61,7 +62,7 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',
                     div(class:"modal-body"){
                         textarea(class:"form-control", id:"nuevoComentario", placeholder:"Nuevo Comentario (max. 450 caracteres)", maxlength:450){}
                         //tabla comentarios
-                        table(id:'comentarios-table', class:"table table-dark table-striped responsive", style:"width:100%;table-layout:fixed;")
+                        table(id:'comentarios-table', class:"table table-dark table-striped responsive", style:"width:100%;table-layout:fixed;"){}
                     }
                     //Footer
                     div(class:"modal-footer"){

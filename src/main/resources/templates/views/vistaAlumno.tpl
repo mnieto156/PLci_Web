@@ -9,7 +9,6 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',true,
                     th('Correo')
                     th('Curso')
                     th('Repositorio')
-                    th('Commits')
                 }
             }
             tbody{
@@ -30,12 +29,11 @@ layout isAdmin ? 'layouts/adminLayout.tpl':'layouts/alumnoLayout.tpl',true,
                         ul{
                             alumno.cursosAlumno.each { cursoAlumno ->
                                 li{
-                                    a(href:"$cursoAlumno.repositorio","Gitea")
+                                    a(href:"$cursoAlumno.repositorio",target:'_blank',"Gitea")
                                 }
                             }
                         }
                     }
-                    td{a(href:"commits", 'Ver todos')}
                 }
             }
         }

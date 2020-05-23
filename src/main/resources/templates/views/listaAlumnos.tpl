@@ -46,7 +46,7 @@ mainBody: contents{
         script(){
             yieldUnescaped ''' $(document).ready(function(){
                 $('#alumnos').DataTable( {
-                    "language": { "url":"/webjars/datatables-plugins/i18n/Spanish.json"}
+                    "language": { "url":"/webjars/datatables-plugins/i18n/Spanish.json"},
                     "columnDefs": [
                         {
                             "targets": [0],

@@ -34,7 +34,7 @@ class Alumno {
             mappedBy = "alumno",
             cascade = CascadeType.MERGE,
             orphanRemoval = true)
-    Set<CursoAlumno> cursosAlumno
+    Set<CursoAlumno> cursosAlumno = new HashSet<CursoAlumno>()
 
     @OneToOne(
             fetch = FetchType.LAZY,

@@ -81,6 +81,7 @@ class CursoServiceImpl implements CursoService {
             giteaBaseRepo = giteaService.addRepo(giteaBaseRepo,nombreCurso).block()
             curso.baseRepository = giteaBaseRepo.html_url
             cursoRepository.save curso
-        } else persisted
+        } else
+            cursoRepository.save curso
     }
 }

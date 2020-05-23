@@ -36,7 +36,7 @@ class Curso {
             cascade = CascadeType.MERGE,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
-    Set<CursoAlumno> cursoAlumnos
+    Set<CursoAlumno> cursoAlumnos = new HashSet<CursoAlumno>()
 
 
 }

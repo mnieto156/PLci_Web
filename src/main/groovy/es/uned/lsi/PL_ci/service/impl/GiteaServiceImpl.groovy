@@ -86,7 +86,7 @@ class GiteaServiceImpl implements GiteaService {
 
     @Override
     Mono<GiteaRepo> addCollaboratorToRepo(String repoName, String userAdmin, String userCollab) {
-        def uri = webClient.put().uri("/repos/${userAdmin}/${repoName}/${userCollab}")
+        def uri = webClient.put().uri("/repos/${userAdmin}/${repoName}/collaborators/${userCollab}")
         def map = new LinkedMultiValueMap()
         map.add('permission','write')
         def inserter = BodyInserters.fromMultipartData(map)

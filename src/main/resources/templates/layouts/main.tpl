@@ -16,31 +16,44 @@ html(lang:'es') {
     script(src:'/webjars/datatables-plugins/dataRender/datetime.js'){}
     script(src:'/webjars/momentjs/min/moment-with-locales.min.js'){}
     //script(src:'https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.28/moment-timezone.min.js'){}
-    body {
-        div(class: 'jumbotron text-center'){
-            h1('Sistema de pruebas automatizadas de Procesadores de Lenguaje')
-        }
-        div(class: 'container') {
-            if(userNavbar){
-                userNavbar()
+    body(class:'d-flex flex-column min-vh-100') {
+        div(class:'wrapper flex-grow-1'){
+            div(class: 'jumbotron text-center'){
+                h1('Sistema de pruebas automatizadas de Procesadores de Lenguaje')
             }
-            else {
-                nav(class: 'navbar navbar-expand-sm bg-dark navbar-dark fixed-top') {
-                    a(class:'navbar-brand',href:'/','Inicio')
-                    button( class:"navbar-toggler", type:"button", "data-toggle":"collapse", "data-target":"#collapsibleNavbar"){
-                        span (class:"navbar-toggler-icon")
-                    }
-                    div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
-                        ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
-                            li(class: 'nav-item') {
-                                a(class:'nav-link',href:'#','Ayuda')
+            div(class: 'container') {
+                if(userNavbar){
+                    userNavbar()
+                }
+                else {
+                    nav(class: 'navbar navbar-expand-sm bg-dark navbar-dark fixed-top') {
+                        a(class:'navbar-brand',href:'/','Inicio')
+                        button( class:"navbar-toggler", type:"button", "data-toggle":"collapse", "data-target":"#collapsibleNavbar"){
+                            span (class:"navbar-toggler-icon")
+                        }
+                        div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
+                            ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
+                                li(class: 'nav-item') {
+                                    a(class:'nav-link',href:'#','Ayuda')
+                                }
                             }
                         }
                     }
                 }
+                h2(pageTitle)
+                mainBody()
+
             }
-            h2(pageTitle)
-            mainBody()
         }
+        footer(class:'footer'){
+            div(class:'container'){
+                hr()
+                span(class:'text-muted'){
+                    yield 'Departamento de Lenguajes y Sistemas Informáticos. ETS de Ingeniería Informática (UNED)'
+                }
+            }
+        }
+
     }
+
 }

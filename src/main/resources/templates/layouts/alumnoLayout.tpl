@@ -8,7 +8,7 @@ layout 'layouts/main.tpl',true,
             div(class:"collapse navbar-collapse", id:"collapsibleNavbar"){
                 ul(class: 'navbar-nav mr-auto mt-2 mt-lg-0') {
                     li(class: 'nav-item'){
-                        a(class:'nav-link',href:"/alumnos/$userName/commits",'Progresos')
+                        a(class:'nav-link',href:"/alumnos/$userName/avances",'Progresos')
                     }
                     li(class: 'nav-item') {
                         a(class:'nav-link',href:'#','Ayuda')
@@ -23,7 +23,7 @@ layout 'layouts/main.tpl',true,
                         }
                         ul(class:"dropdown-menu dropdown-menu-right"){
                             a(class:"dropdown-item", href:"/alumnos/$userName/ficha", 'Ficha')
-                            a(class:"dropdown-item", href:"/alumnos/$userName/notas", 'Notas')
+                            //a(class:"dropdown-item", href:"/alumnos/$userName/notas", 'Notas')
                             li(class:"dropdown-divider"){}
                             a(class:"dropdown-item", href:"/logout", 'Salir')
                         }

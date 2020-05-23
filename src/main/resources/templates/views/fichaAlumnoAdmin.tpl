@@ -36,7 +36,7 @@ layout 'layouts/adminLayout.tpl',true,
                     button(type:'submit', class:'btn btn-md btn-secondary btn-block', id:'enviar', title:'Guardar los cambios'){ yield "Guardar"}
                 }
                 div(class:"form-group col-md-2"){
-                    button(class:"btn btn-md btn-secondary btn-block", onclick:"history.go(-1);", title:"Volver a la página anterior"){
+                    button(type:'button', class:"btn btn-md btn-secondary btn-block", onclick:"history.go(-1);", title:"Volver a la página anterior"){
                         yield "Volver"
                     }
                 }
@@ -77,7 +77,7 @@ layout 'layouts/adminLayout.tpl',true,
                     div(class:'form-group col-md-2'){
                         button(type:'submit', class:'btn btn-md btn-secondary btn-block', id:'addCurso', title:'Añadir curso'){
                             yield 'Añadir a curso '
-                            i(class:'fa fa-plus-square')
+                            //i(class:'fa fa-plus-square')
                         }
                     }
                 }

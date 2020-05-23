@@ -101,10 +101,9 @@ class AlumnoServiceImpl implements AlumnoService {
     Alumno addCurso(int alumnoId, String nombreCurso) {
         Curso curso = cursoService.findByNombre nombreCurso
         Alumno alumno = findById alumnoId
-        if (!alumno?.cursosAlumno){
-            alumno.cursosAlumno = new HashSet<CursoAlumno>()
-        }
-        if (curso?.cursoAlumnos ){
+
+        if (curso){
+
             def cursoAlumno = new CursoAlumno(
                     curso: curso,
                     alumno: alumno,
@@ -116,10 +115,11 @@ class AlumnoServiceImpl implements AlumnoService {
                 giteaRepo.setPrivate(true)
                 giteaRepo = giteaService.addRepo(giteaRepo,curso.nombre).block()
                 giteaService.addCollaboratorToRepo(giteaRepo.name,curso.nombre,alumno.user.username).block()
-                cursoAlumno.repositorio=giteaRepo.html_url
+                cursoAlumno.repositorio="${giteaRepo.html_url}.git"
                 alumno.cursosAlumno.add(cursoAlumno)
                 curso.cursoAlumnos.add(cursoAlumno)
                 alumno = alumnoRepository.save alumno
+
             }
         }
         alumno
