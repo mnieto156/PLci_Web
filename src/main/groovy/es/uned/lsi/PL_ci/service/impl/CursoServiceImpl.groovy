@@ -69,8 +69,8 @@ class CursoServiceImpl implements CursoService {
             }
             def giteaUser = new GiteaUser(
                     username: nombreCurso,
-                    password: curso.asignatura + '.Admin_' + curso.anio,
-                    email: 'adminpl@uned.es')
+                    password: "${curso.asignatura}.Admin_${curso.anio}",
+                    email: "${nombreCurso}@uned.es")
             giteaService.addUser(giteaUser).block()
             //ToDo: crear repositorio base de Gitea?
             // - No puede hacerse fork de un repositorio propio!!
