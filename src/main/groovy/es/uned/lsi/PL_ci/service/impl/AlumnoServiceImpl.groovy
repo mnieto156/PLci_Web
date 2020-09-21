@@ -110,12 +110,13 @@ class AlumnoServiceImpl implements AlumnoService {
                     id: new CursoAlumnoKey(cursoId: curso.cursoId, alumnoId: alumno.alumnoId),
                     repositorio: "${appConfig.getGitea().baseurl}/${curso.nombre}/${alumno.user.username}.git"
             )
-            if (!alumno.cursosAlumno.find { it.id = cursoAlumno.id } ){
-                def giteaRepo = new GiteaRepo(name:alumno.user.username)
+            def found = alumno.cursosAlumno.find { it.id.cursoId == cursoAlumno.id.cursoId }
+            if (!found) {
+                def giteaRepo = new GiteaRepo(name: alumno.user.username)
                 giteaRepo.setPrivate(true)
-                giteaRepo = giteaService.addRepo(giteaRepo,curso.nombre).block()
-                giteaService.addCollaboratorToRepo(giteaRepo.name,curso.nombre,alumno.user.username).block()
-                cursoAlumno.repositorio="${giteaRepo.html_url}.git"
+                giteaRepo = giteaService.addRepo(giteaRepo, curso.nombre).block()
+                giteaService.addCollaboratorToRepo(giteaRepo.name, curso.nombre, alumno.user.username).block()
+                cursoAlumno.repositorio = "${giteaRepo.html_url}.git"
                 alumno.cursosAlumno.add(cursoAlumno)
                 curso.cursoAlumnos.add(cursoAlumno)
                 alumno = alumnoRepository.save alumno
